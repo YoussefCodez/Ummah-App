@@ -42,7 +42,7 @@ class Service extends StatelessWidget {
                 child: Text(
                   text,
                   style: TextStyle(
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                     fontWeight: .w500,
                     color: AppColors.onThirdColor.withValues(alpha: .8),
                   ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/features/azkar/presentation/cubit/azkar_cubit.dart';
 import 'package:ummah/features/azkar/presentation/cubit/azkar_state.dart';
 import 'package:ummah/features/azkar/presentation/screens/widgets/azkar_item_card.dart';
@@ -26,10 +27,14 @@ class AzkarDetailScreen extends StatelessWidget {
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               elevation: 0,
               scrolledUnderElevation: 0,
-              title: Text(title, style: const TextStyle(fontFamily: 'Main')),
+              toolbarHeight: DeviceUtilsService.isTablet(context) ? 100 : 60,
+              title: Text(title, style: TextStyle(fontFamily: 'Main', fontSize: 14.sp)),
               centerTitle: true,
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: DeviceUtilsService.isTablet(context) ? 26 : 20,
+                ),
                 onPressed: () => Navigator.pop(context),
               ),
               actions: [
@@ -37,7 +42,7 @@ class AzkarDetailScreen extends StatelessWidget {
                   onPressed: () {
                     context.read<AzkarCubit>().resetAll();
                   },
-                  icon: const Icon(Icons.refresh),
+                  icon: Icon(Icons.refresh, size: DeviceUtilsService.isTablet(context) ? 26 : 20,),
                   tooltip: 'إعادة تعيين الكل',
                 ),
               ],

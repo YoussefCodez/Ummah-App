@@ -26,7 +26,7 @@ class _AccessServicesState extends State<AccessServices> {
           Text(
             "Quick Access",
             style: TextStyle(
-              fontSize: 25.sp,
+              fontSize: 23.sp,
               fontWeight: .bold,
               color: AppColors.primaryColor,
             ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_with_tafsir/models/reciters.dart';
+import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/core/theme/app_colors.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_state.dart';
@@ -25,6 +27,7 @@ class SettingsScreen extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'Main',
             fontWeight: .bold,
+            fontSize: 16.sp,
             color: AppColors.primaryColor,
           ),
         ),
@@ -34,7 +37,6 @@ class SettingsScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is SettingsLoaded) {
             final settings = state.settings;
-
             return ListView(
               padding: EdgeInsets.all(20.r),
               children: [
@@ -56,14 +58,14 @@ class SettingsScreen extends StatelessWidget {
                               'Font Size',
                               style: TextStyle(
                                 fontFamily: 'Main',
-                                fontSize: 16.sp,
+                                fontSize: 14.sp,
                               ),
                             ),
                             Text(
                               '${settings.textFontSize.toInt()}',
                               style: TextStyle(
                                 fontFamily: 'Main',
-                                fontSize: 16.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.bold,
                                 color: theme.colorScheme.primary,
                               ),
@@ -109,7 +111,7 @@ class SettingsScreen extends StatelessWidget {
                   child: SwitchListTile(
                     title: Text(
                       'Bold Text',
-                      style: TextStyle(fontFamily: 'Main', fontSize: 16.sp),
+                      style: TextStyle(fontFamily: 'Main', fontSize: 14.sp),
                     ),
                     value: settings.isTextBold,
                     activeThumbColor: theme.colorScheme.primary,
@@ -123,40 +125,109 @@ class SettingsScreen extends StatelessWidget {
                 SettingsSectionHeader(title: 'Mushaf Display Mode'),
                 Gap(10.h),
                 SettingsCard(
-                  child: RadioGroup<String>(
-                    groupValue: settings.mushafMode,
-                    onChanged: (value) {
-                      if (value != null) {
-                        context.read<SettingsCubit>().changeMushafMode(
-                          value == 'mushaf',
-                        );
-                      }
-                    },
-                    child: Column(
-                      children: [
-                        RadioListTile<String>(
-                          title: Text(
-                            'Pages (Mushaf)',
-                            style: TextStyle(
-                              fontFamily: 'Main',
-                              fontSize: 16.sp,
+                  child: Theme(
+                    data: theme.copyWith(
+                      splashFactory: NoSplash.splashFactory,
+                      highlightColor: Colors.transparent,
+                    ),
+                    child: RadioGroup<String>(
+                      groupValue: settings.mushafMode,
+                      onChanged: (value) {
+                        if (value != null) {
+                          context.read<SettingsCubit>().changeMushafMode(
+                            value == 'mushaf',
+                          );
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          Transform.scale(
+                            scale: DeviceUtilsService.isTablet(context)
+                                ? 1.2
+                                : 1.0,
+                            alignment: .bottomStart,
+                            child: RadioListTile<String>(
+                              title: Text(
+                                'Pages (Mushaf)',
+                                style: TextStyle(
+                                  fontFamily: 'Main',
+                                  fontSize: DeviceUtilsService.isTablet(context)
+                                      ? 12.sp
+                                      : 14.sp,
+                                ),
+                              ),
+                              value: 'mushaf',
+                              activeColor: theme.colorScheme.primary,
                             ),
                           ),
-                          value: 'mushaf',
-                          activeColor: theme.colorScheme.primary,
-                        ),
-                        RadioListTile<String>(
-                          title: Text(
-                            'Ayahs',
-                            style: TextStyle(
-                              fontFamily: 'Main',
-                              fontSize: 16.sp,
+                          Gap(10.h),
+                          Transform.scale(
+                            scale: DeviceUtilsService.isTablet(context)
+                                ? 1.2
+                                : 1.0,
+                            alignment: .bottomStart,
+                            child: RadioListTile<String>(
+                              title: Text(
+                                'Ayahs',
+                                style: TextStyle(
+                                  fontFamily: 'Main',
+                                  fontSize: DeviceUtilsService.isTablet(context)
+                                      ? 12.sp
+                                      : 14.sp,
+                                ),
+                              ),
+                              value: 'ayah',
+                              activeColor: theme.colorScheme.primary,
                             ),
                           ),
-                          value: 'ayah',
-                          activeColor: theme.colorScheme.primary,
-                        ),
-                      ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Gap(20.h),
+                SettingsSectionHeader(title: 'Readers'),
+                Gap(10.h),
+                SettingsCard(
+                  child: Theme(
+                    data: theme.copyWith(
+                      splashFactory: NoSplash.splashFactory,
+                      highlightColor: Colors.transparent,
+                    ),
+                    child: RadioGroup<String>(
+                      groupValue: settings.reciter,
+                      onChanged: (value) {
+                        print(value);
+                        if (value != null) {
+                          context.read<SettingsCubit>().changeReciter(value);
+                        }
+                      },
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: Reciters.displayNames.length,
+                        itemBuilder: (context, index) {
+                          final entry = Reciters.displayNames.entries
+                              .toList()[index];
+                          final reciterId = entry.key;
+                          final reciterName = entry.value;
+
+                          return RadioListTile<String>(
+                            title: Text(
+                              reciterName,
+                              style: TextStyle(
+                                fontFamily: 'Main',
+                                fontSize: DeviceUtilsService.isTablet(context)
+                                    ? 12.sp
+                                    : 14.sp,
+                              ),
+                            ),
+                            value: reciterId,
+                            activeColor: theme.colorScheme.primary,
+                            hoverColor: Colors.transparent,
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),

@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ummah/core/services/get_it_service.dart';
 import 'package:ummah/core/services/hive_service.dart';
 import 'package:ummah/core/services/location_service.dart';
 
 part 'location_state.dart';
 
+@lazySingleton
 class LocationCubit extends Cubit<LocationState> {
   final LocationService _locationService;
   LocationCubit(this._locationService) : super(LocationInitial());

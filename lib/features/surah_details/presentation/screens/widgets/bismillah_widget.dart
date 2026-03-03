@@ -21,6 +21,7 @@ class BismillahWidget extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'QuranFont',
               fontSize: state.settings.textFontSize.sp,
+              fontWeight: state.settings.isTextBold ? .bold : .normal,
               color: Colors.black,
             ),
           ),

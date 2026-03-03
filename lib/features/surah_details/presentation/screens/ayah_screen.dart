@@ -5,6 +5,7 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_with_tafsir/models/meta.dart';
 import 'package:quran_with_tafsir/quran_with_tafsir.dart';
+import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/core/services/get_it_service.dart';
 import 'package:ummah/core/theme/app_colors.dart';
 import 'package:ummah/features/quran/presentation/cubit/quran_cubit.dart';
@@ -36,15 +37,24 @@ class _AyahScreenState extends State<AyahScreen> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           scrolledUnderElevation: 0,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.primaryColor,
-              size: 20.r,
+          toolbarHeight: DeviceUtilsService.isTablet(context) ? 80.h : 60.h,
+          actionsPadding: REdgeInsets.only(
+            right: DeviceUtilsService.isTablet(context) ? 10 : 0,
+          ),
+          leading: Padding(
+            padding: REdgeInsets.only(
+              left: DeviceUtilsService.isTablet(context) ? 10 : 0,
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: AppColors.primaryColor,
+                size: 20.r,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
           title: Text(
             widget.surah.nameAr,

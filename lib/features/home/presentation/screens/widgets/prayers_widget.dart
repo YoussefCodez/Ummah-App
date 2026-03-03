@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/core/theme/app_colors.dart';
 import 'package:ummah/features/home/presentation/cubit/get_timing_by_city_cubit.dart';
 
@@ -16,7 +17,7 @@ class PrayersWidget extends StatelessWidget {
           final currentSalah = state.salwat[state.activeAndNextIndex.$1];
           final nextSalah = state.salwat[state.activeAndNextIndex.$2];
           return Padding(
-            padding: REdgeInsets.all(18),
+            padding: REdgeInsets.all(DeviceUtilsService.isTablet(context) ? 22.r : 18),
             child: Column(
               children: [
                 Container(
@@ -56,7 +57,7 @@ class PrayersWidget extends StatelessWidget {
                               ),
                               style: TextStyle(
                                 color: AppColors.secondryColorText,
-                                fontSize: 30.sp,
+                                fontSize: DeviceUtilsService.isTablet(context) ? 25.sp : 30.sp,
                                 fontWeight: .bold,
                               ),
                             ),
@@ -65,7 +66,7 @@ class PrayersWidget extends StatelessWidget {
                               "Next Pray : ${nextSalah.name}",
                               style: TextStyle(
                                 color: AppColors.secondryColorText,
-                                fontSize: 18.sp,
+                                fontSize: DeviceUtilsService.isTablet(context) ? 16.sp : 18.sp,
                                 fontWeight: .w500,
                               ),
                             ),

@@ -11,6 +11,8 @@ import 'package:ummah/features/surah_details/presentation/cubit/select_ayah_cubi
 import 'package:ummah/features/surah_details/presentation/screens/widgets/ayah_bottom_sheet.dart';
 import 'package:ummah/features/surah_details/presentation/screens/widgets/bismillah_widget.dart';
 import 'package:ummah/features/surah_details/presentation/screens/widgets/surah_header.dart';
+import 'package:ummah/features/settings/presentation/cubit/settings_cubit.dart';
+import 'package:ummah/features/settings/presentation/cubit/settings_state.dart';
 
 class MushafPageContent extends StatelessWidget {
   final List<Ayah> ayahs;
@@ -90,13 +92,9 @@ class MushafPageContent extends StatelessWidget {
               _showAyahDetails(context, ayah);
             },
           style: TextStyle(
-            fontFamily: 'QuranFont',
-            fontSize: 25.sp,
-            height: 2.0,
             backgroundColor: isSelected
                 ? AppColors.primaryColor.withValues(alpha: 0.2)
                 : Colors.transparent,
-            color: Colors.black87,
           ),
         ),
       );
@@ -116,10 +114,31 @@ class _RichTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(children: spans),
-      textAlign: TextAlign.justify,
-      textDirection: TextDirection.rtl,
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (context, state) {
+        double fontSize = 20.0;
+        bool isBold = false;
+
+        if (state is SettingsLoaded) {
+          fontSize = state.settings.textFontSize;
+          isBold = state.settings.isTextBold;
+        }
+
+        return Text.rich(
+          TextSpan(
+            children: spans,
+            style: TextStyle(
+              fontFamily: 'QuranFont',
+              fontSize: fontSize.sp,
+              fontWeight: isBold ? .bold : .normal,
+              color: Colors.black87,
+              height: 2.0,
+            ),
+          ),
+          textAlign: .justify,
+          textDirection: .rtl,
+        );
+      },
     );
   }
 }

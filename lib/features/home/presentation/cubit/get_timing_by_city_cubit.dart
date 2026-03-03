@@ -5,15 +5,18 @@ import 'package:meta/meta.dart';
 import 'package:ummah/features/home/domain/entities/timing_entity.dart';
 import 'package:ummah/features/home/domain/use_cases/get_timing_by_city_usecase.dart';
 import 'package:ummah/features/home/presentation/cubit/salwat_strategy.dart';
+import 'package:ummah/core/services/notification_service.dart';
+import 'package:ummah/features/home/domain/entities/timing_date_time.dart';
 
 part 'get_timing_by_city_state.dart';
 
 @LazySingleton()
 class GetTimingByCityCubit extends Cubit<GetTimingByCityState> {
   final GetTimingByCityUsecase getTimingByCityUsecase;
+  final NotificationService notificationService;
   Timer? _updateTimer;
 
-  GetTimingByCityCubit(this.getTimingByCityUsecase)
+  GetTimingByCityCubit(this.getTimingByCityUsecase, this.notificationService)
     : super(GetTimingByCityInitial());
 
   Future<void> getTimingByCity({
@@ -35,7 +38,35 @@ class GetTimingByCityCubit extends Cubit<GetTimingByCityState> {
           activeAndNextIndex: timingEntity.getActiveAndNextIndex(),
         ),
       );
+      _schedulePrayers(timingEntity);
       _startTimer();
+    });
+  }
+
+  void _schedulePrayers(TimingEntity timing) {
+    final prayers = {
+      0: ("الفجر", timing.fajrDateTime),
+      1: ("الظهر", timing.dhuhrDateTime),
+      2: ("العصر", timing.asrDateTime),
+      3: ("المغرب", timing.maghribDateTime),
+      4: ("العشاء", timing.ishaDateTime),
+    };
+
+    prayers.forEach((id, data) {
+      final name = data.$1;
+      var time = data.$2;
+
+      // إذا كان وقت الصلاة قد مضى اليوم، نجدولها لغداً
+      if (time.isBefore(DateTime.now())) {
+        time = time.add(const Duration(days: 1));
+      }
+
+      notificationService.scheduleNotification(
+        id: id,
+        title: "صلاة $name",
+        body: "حان الآن موعد أذان $name",
+        scheduledDate: time,
+      );
     });
   }
 

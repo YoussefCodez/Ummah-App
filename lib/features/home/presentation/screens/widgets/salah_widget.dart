@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/core/theme/app_colors.dart';
 
 class SalahWidget extends StatelessWidget {
@@ -44,7 +45,7 @@ class SalahWidget extends StatelessWidget {
             title,
             style: TextStyle(
               color: isActive ? Colors.white : Theme.of(context).colorScheme.secondary,
-              fontSize: 15.sp,
+              fontSize: DeviceUtilsService.isTablet(context) ? 12.sp : 15.sp,
               fontWeight: isActive ? .bold : .w400,
             ),
           ),
@@ -53,7 +54,7 @@ class SalahWidget extends StatelessWidget {
             time,
             style: TextStyle(
               color: isActive ? Colors.white : Theme.of(context).colorScheme.secondary,
-              fontSize: 15.sp,
+              fontSize: DeviceUtilsService.isTablet(context) ? 12.sp : 15.sp,
               fontWeight: isActive ? .bold : .w400,
             ),
           ),

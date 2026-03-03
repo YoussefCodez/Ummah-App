@@ -3,6 +3,7 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/features/azkar/presentation/models/azkar_category.dart';
 import 'package:ummah/features/azkar/presentation/screens/azkar_detail_screen.dart';
 
@@ -65,15 +66,16 @@ class AzkarCategoryCard extends StatelessWidget {
                   category.title,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: .bold,
                     fontFamily: 'Main',
+                    fontSize: DeviceUtilsService.isTablet(context) ? 13.sp : 14.sp,
                   ),
                 ),
                 Gap(4.h),
                 Text(
                   category.count,
                   style: GoogleFonts.cairo(
-                    fontSize: 12.sp,
+                    fontSize: DeviceUtilsService.isTablet(context) ? 10.sp : 12.sp,
                     color: Colors.grey[500],
                   )
                 ),

@@ -33,7 +33,9 @@ class GetTimingByCityImpl implements GetTimingByCity {
       }
 
       // 2. If no cache, check Internet Connection
-      if (await _networkInfo.isConnected) {
+      final isConnected = await _networkInfo.isConnected;
+
+      if (isConnected) {
         final TimingModel timingModel = await _apiClientService
             .getTimingsByCity(city: city, country: country);
 

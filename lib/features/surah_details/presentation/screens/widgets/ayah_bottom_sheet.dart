@@ -79,9 +79,7 @@ class AyahBottomSheet extends StatelessWidget {
                           textDirection: TextDirection.rtl,
                           style: TextStyle(
                             fontFamily: 'QuranFont',
-                            fontSize: state is SettingsLoaded
-                                ? state.settings.textFontSize.sp
-                                : 22.sp,
+                            fontSize: 22.sp,
                             height: 1.8,
                             color: Colors.black87,
                           ),
@@ -93,9 +91,7 @@ class AyahBottomSheet extends StatelessWidget {
                         "التفسير",
                         textDirection: .rtl,
                         style: TextStyle(
-                          fontSize: state is SettingsLoaded
-                              ? state.settings.textFontSize.sp - 6.sp
-                              : 16.sp,
+                          fontSize: 16.sp,
                           fontWeight: .bold,
                           color: Colors.grey[800],
                         ),

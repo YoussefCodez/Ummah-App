@@ -40,10 +40,13 @@ import '../../features/settings/presentation/cubit/settings_cubit.dart'
     as _i792;
 import '../../features/surah_details/presentation/cubit/quran_tafsir_cubit.dart'
     as _i205;
+import '../config/location_cubit.dart' as _i1002;
 import '../network/network_info.dart' as _i932;
 import 'api_client_service.dart' as _i281;
 import 'hive_service.dart' as _i0;
 import 'location_service.dart' as _i126;
+import 'notification_service.dart' as _i459;
+import 'notification_service_impl.dart' as _i354;
 import 'register_module.dart' as _i291;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -64,6 +67,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i85.SettingsLocalDataSource>(
       () => _i917.SettingsLocalDataSourceImpl(gh<_i0.HiveService>()),
     );
+    gh.lazySingleton<_i459.NotificationService>(
+      () => _i354.NotificationServiceImpl(),
+    );
     gh.lazySingleton<_i34.HomeLocalDataSource>(
       () => _i34.HomeLocalDataSourceImpl(gh<_i0.HiveService>()),
     );
@@ -73,14 +79,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i674.SettingsRepository>(
       () => _i955.SettingsRepositoryImpl(gh<_i85.SettingsLocalDataSource>()),
     );
-    gh.factory<_i431.QuranCubit>(
-      () => _i431.QuranCubit(gh<_i934.QuranService>()),
-    );
     gh.factory<_i205.QuranTafsirCubit>(
       () => _i205.QuranTafsirCubit(gh<_i934.QuranService>()),
     );
+    gh.factory<_i431.QuranCubit>(
+      () => _i431.QuranCubit(
+        gh<_i934.QuranService>(),
+        gh<_i674.SettingsRepository>(),
+      ),
+    );
     gh.lazySingleton<_i932.NetworkInfo>(
       () => _i932.NetworkInfoImpl(gh<_i161.InternetConnection>()),
+    );
+    gh.lazySingleton<_i1002.LocationCubit>(
+      () => _i1002.LocationCubit(gh<_i126.LocationService>()),
     );
     gh.factory<_i792.SettingsCubit>(
       () => _i792.SettingsCubit(gh<_i674.SettingsRepository>()),
@@ -96,7 +108,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i189.GetTimingByCityUsecase(gh<_i85.GetTimingByCity>()),
     );
     gh.lazySingleton<_i712.GetTimingByCityCubit>(
-      () => _i712.GetTimingByCityCubit(gh<_i189.GetTimingByCityUsecase>()),
+      () => _i712.GetTimingByCityCubit(
+        gh<_i189.GetTimingByCityUsecase>(),
+        gh<_i459.NotificationService>(),
+      ),
     );
     return this;
   }

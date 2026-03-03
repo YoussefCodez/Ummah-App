@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ummah/core/services/device_utils_service.dart';
 
 class SettingsSectionHeader extends StatelessWidget {
   final String title;
@@ -11,7 +12,7 @@ class SettingsSectionHeader extends StatelessWidget {
       title,
       style: TextStyle(
         fontFamily: 'Main',
-        fontSize: 18.sp,
+        fontSize: DeviceUtilsService.isTablet(context) ? 15.sp : 18.sp,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.primary,
       ),

@@ -4,6 +4,7 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:ummah/core/config/location_cubit.dart';
+import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/features/home/presentation/cubit/get_timing_by_city_cubit.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -20,7 +21,9 @@ class HomeAppBar extends StatelessWidget {
           Column(
             crossAxisAlignment: .start,
             children: [
-              Text("Place", style: Theme.of(context).textTheme.titleSmall),
+              Text("Place", style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontSize: DeviceUtilsService.isTablet(context) ? 12.sp : 15.sp,
+              )),
               BlocBuilder<LocationCubit, LocationState>(
                 builder: (context, state) {
                   if (state is LocationLoading) {
@@ -28,7 +31,9 @@ class HomeAppBar extends StatelessWidget {
                       enabled: true,
                       child: Text(
                         "Cairo , Egypt",
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontSize: DeviceUtilsService.isTablet(context) ? 15.sp : 20.sp,
+                        ),
                       ),
                     );
                   }
@@ -38,12 +43,16 @@ class HomeAppBar extends StatelessWidget {
                       children: [
                         Text(
                           state.place,
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontSize: DeviceUtilsService.isTablet(context) ? 15.sp : 20.sp,
+                          ),
                         ),
                         Gap(4.h),
                         Text(
                           "Last Updated: ${state.date.hour}:${state.date.minute} ${state.date.hour >= 12 ? "PM" : "AM"}",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontSize: DeviceUtilsService.isTablet(context) ? 12.sp : 15.sp,
+                          ),
                         ),
                       ],
                     );
@@ -51,7 +60,9 @@ class HomeAppBar extends StatelessWidget {
                   return Text(
                     state is LocationFailure ? state.message : "",
                     maxLines: 1,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: DeviceUtilsService.isTablet(context) ? 15.sp : 20.sp,
+                    ),
                   );
                 },
               ),
@@ -65,16 +76,22 @@ class HomeAppBar extends StatelessWidget {
                   children: [
                     Text(
                       state.timingEntity.hijriMonth,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontSize: DeviceUtilsService.isTablet(context) ? 12.sp : 15.sp,
+                      ),
                     ),
                     Text(
                       '${state.timingEntity.dayEn} ${state.timingEntity.hijriYear}',
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontSize: DeviceUtilsService.isTablet(context) ? 15.sp : 20.sp,
+                      ),
                     ),
                     Gap(4.h),
                     Text(
                       state.timingEntity.gregorianDate,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontSize: DeviceUtilsService.isTablet(context) ? 12.sp : 15.sp,
+                      ),
                     ),
                   ],
                 );
@@ -82,7 +99,9 @@ class HomeAppBar extends StatelessWidget {
               if (state is GetTimingByCityFailure) {
                 return Text(
                   state.error,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontSize: DeviceUtilsService.isTablet(context) ? 15.sp : 20.sp,
+                  ),
                 );
               }
               if (state is GetTimingByCityLoading) {
@@ -93,11 +112,15 @@ class HomeAppBar extends StatelessWidget {
                     children: [
                       Text(
                         "Hijri",
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontSize: DeviceUtilsService.isTablet(context) ? 12.sp : 15.sp,
+                        ),
                       ),
                       Text(
                         "Al Arba'a 1447",
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontSize: DeviceUtilsService.isTablet(context) ? 15.sp : 20.sp,
+                        ),
                       ),
                       Text(
                         "25 Feb 2026",

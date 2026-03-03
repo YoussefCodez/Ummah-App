@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:quran_with_tafsir/quran_with_tafsir.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart'; 
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+import 'package:ummah/features/settings/domain/repositories/settings_repository.dart';
 
 part 'quran_state.dart';
 
@@ -12,6 +14,7 @@ part 'quran_state.dart';
 class QuranCubit extends Cubit<QuranState> {
   // خدمة القرآن لجلب البيانات والروابط
   final QuranService _quranService;
+  final SettingsRepository _settingsRepository;
 
   // قائمة مرجعية لجميع السور لاستخدامها في البحث والفلترة
   late List<SurahMetadata> _allSurahs = [];
@@ -30,7 +33,8 @@ class QuranCubit extends Cubit<QuranState> {
   // جسر التواصل مع الواجهة لتحديث التظليل والتقليب (السورة، الـ ID، الصفحة)
   void Function(int surah, int ayah, int page)? onAyahChanged;
 
-  QuranCubit(this._quranService) : super(QuranInitial()) {
+  QuranCubit(this._quranService, this._settingsRepository)
+    : super(QuranInitial()) {
     // الاستماع لانتهاء المفعول الصوتي لتشغيل الآية التالية تلقائياً
     _audioPlayer.onPlayerComplete.listen((event) {
       playNextAyah();
@@ -92,11 +96,10 @@ class QuranCubit extends Cubit<QuranState> {
 
   // بناء رابط الصوت الخاص بالآية لقارئ معين
   String getAudioUrl(int surah, int ayah) {
-    return _quranService.getAudioUrl(
-      surah,
-      ayah,
-      reciterIdentifier: Reciters.abdulBasit, // TODO : change reciter
-    );
+    final settings = _settingsRepository.getSettings();
+    final reciterId = settings.reciter;
+
+    return _quranService.getAudioUrl(surah, ayah, reciterIdentifier: reciterId);
   }
 
   void startPlaySpecifcAyah({

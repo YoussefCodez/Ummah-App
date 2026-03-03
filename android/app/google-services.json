@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "545708821700",
+    "project_id": "ummah-b150f",
+    "storage_bucket": "ummah-b150f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545708821700:android:f10d283e221a7a6e39cd91",
+        "android_client_info": {
+          "package_name": "com.example.ummah"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB10BrdrzZx6qpg1XPgRn6lrrNOZ0L0FeM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

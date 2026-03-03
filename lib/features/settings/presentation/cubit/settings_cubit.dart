@@ -45,4 +45,12 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(SettingsLoaded(newSettings));
     repository.saveSettings(newSettings);
   }
+
+  void changeReciter(String reciter) {
+    if (state is SettingsLoaded) {
+      final currentState = state as SettingsLoaded;
+      final newSettings = currentState.settings.copyWith(reciter: reciter);
+      _updateAndSave(newSettings);
+    }
+  }
 }

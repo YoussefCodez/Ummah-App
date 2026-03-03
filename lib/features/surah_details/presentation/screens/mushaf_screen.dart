@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/core/services/get_it_service.dart';
 import 'package:ummah/core/theme/app_colors.dart';
 import 'package:ummah/features/quran/presentation/cubit/quran_cubit.dart';
@@ -83,18 +85,25 @@ class _MushafViewState extends State<MushafView> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           scrolledUnderElevation: 0,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: AppColors.primaryColor,
+          actionsPadding: REdgeInsets.only(right: DeviceUtilsService.isTablet(context) ? 10 : 0) ,
+          toolbarHeight: DeviceUtilsService.isTablet(context) ? 80.h : 60.h,
+          leading: Padding(
+            padding: REdgeInsets.only(left: DeviceUtilsService.isTablet(context) ? 10 : 0),
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: AppColors.primaryColor,
+                size: 20.r,
+              ),
+              onPressed: () => Navigator.pop(context),
             ),
-            onPressed: () => Navigator.pop(context),
           ),
-          title: const Text(
+          title: Text(
             "القرآن الكريم",
             style: TextStyle(
               fontFamily: 'QuranFont',
               color: AppColors.primaryColor,
+              fontSize: 21.sp,
             ),
           ),
           centerTitle: true,
@@ -114,6 +123,7 @@ class _MushafViewState extends State<MushafView> {
                   icon: Icon(
                     isPlaying ? Icons.pause : Icons.play_arrow,
                     color: AppColors.primaryColor,
+                    size: 20.r,
                   ),
                   onPressed: () {
                     if (isPlaying) {
