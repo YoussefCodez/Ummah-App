@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_with_tafsir/quran_with_tafsir.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 import 'package:ummah/core/theme/app_colors.dart';
 
 class SurahTile extends StatelessWidget {
@@ -16,11 +17,13 @@ class SurahTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
+          color: Theme.of(context).colorScheme.onInverseSurface,
+          borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: Theme.of(
+                context,
+              ).colorScheme.shadow.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -34,7 +37,7 @@ class SurahTile extends StatelessWidget {
               children: [
                 _buildSurahNumber(),
                 Gap(16.w),
-                Expanded(child: _buildSurahInfo()),
+                Expanded(child: _buildSurahInfo(context)),
                 _buildSurahNameAr(),
               ],
             ),
@@ -65,7 +68,7 @@ class SurahTile extends StatelessWidget {
     );
   }
 
-  Widget _buildSurahInfo() {
+  Widget _buildSurahInfo(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -74,7 +77,7 @@ class SurahTile extends StatelessWidget {
           style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w700,
-            color: AppColors.onThirdColor,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         Gap(4.h),
@@ -83,7 +86,7 @@ class SurahTile extends StatelessWidget {
             _buildTypeIcon(),
             Gap(6.w),
             Text(
-              "${surah.revelationType} • ${surah.ayahCount} آية",
+              "${surah.revelationType} • ${surah.ayahCount} ${AppStrings.ayah}",
               style: TextStyle(
                 fontSize: 12.sp,
                 color: Colors.grey[500],

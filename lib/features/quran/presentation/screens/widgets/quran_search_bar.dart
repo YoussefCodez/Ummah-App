@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ummah/core/theme/app_colors.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 
 class QuranSearchBar extends StatelessWidget {
   final Function(String) onChanged;
@@ -14,7 +14,9 @@ class QuranSearchBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(
+            context,
+          ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(15.r),
           boxShadow: [
             BoxShadow(
@@ -27,11 +29,16 @@ class QuranSearchBar extends StatelessWidget {
         child: TextField(
           onChanged: onChanged,
           decoration: InputDecoration(
-            hintText: "Search surah",
-            hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey[400]),
+            hintText: AppStrings.searchPlaceholder,
+            hintStyle: TextStyle(
+              fontSize: 14.sp,
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.4),
+            ),
             prefixIcon: Icon(
               CupertinoIcons.search,
-              color: AppColors.primaryColor,
+              color: Theme.of(context).colorScheme.primary,
               size: 20.r,
             ),
             border: InputBorder.none,

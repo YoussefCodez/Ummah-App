@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:ummah/core/config/select_page_cubit.dart';
 import 'package:ummah/core/theme/app_colors.dart';
+import 'package:ummah/features/calendar/screens/calendar_screen.dart';
 import 'package:ummah/features/home/presentation/screens/home_screen.dart';
 import 'package:ummah/features/azkar/presentation/screens/azkar_screen.dart';
 import 'package:ummah/features/quran/presentation/screens/quran_screen.dart';
@@ -33,8 +34,8 @@ class _MainScreenState extends State<MainScreen> {
     return [
       HomeScreen(controller: _controller),
       const AzkarScreen(),
-      QuranScreen(),
-      const PlaceholderScreen(title: "التقويم"),
+      const QuranScreen(),
+      const CalendarScreen(),
       const SettingsScreen(),
     ];
   }
@@ -102,7 +103,7 @@ class _MainScreenState extends State<MainScreen> {
           screens: _buildScreens(),
           items: _navBarsItems(),
           confineToSafeArea: true,
-          backgroundColor: const Color(0xffF5F5F5),
+          backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
           handleAndroidBackButtonPress: true,
           resizeToAvoidBottomInset: true,
           stateManagement: true,
@@ -140,19 +141,6 @@ class _MainScreenState extends State<MainScreen> {
           navBarStyle: NavBarStyle.style15,
         );
       },
-    );
-  }
-}
-
-class PlaceholderScreen extends StatelessWidget {
-  final String title;
-  const PlaceholderScreen({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: Text(title, style: const TextStyle(fontSize: 24))),
     );
   }
 }

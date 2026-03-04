@@ -3,7 +3,6 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ummah/core/services/device_utils_service.dart';
-import 'package:ummah/core/theme/app_colors.dart';
 
 class SalahWidget extends StatelessWidget {
   const SalahWidget({
@@ -24,7 +23,7 @@ class SalahWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: isActive
-            ? AppColors.primaryColor
+            ? Theme.of(context).colorScheme.primary
             : Colors.transparent,
         borderRadius: BorderRadius.circular(12.r),
       ),
@@ -36,7 +35,9 @@ class SalahWidget extends StatelessWidget {
             height: 24.h,
             width: 24.w,
             colorFilter: ColorFilter.mode(
-              isActive ? Colors.white : Theme.of(context).colorScheme.secondary,
+              isActive
+                  ? Colors.white
+                  : Theme.of(context).colorScheme.secondary,
               BlendMode.srcIn,
             ),
           ),
@@ -44,18 +45,22 @@ class SalahWidget extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              color: isActive ? Colors.white : Theme.of(context).colorScheme.secondary,
+              color: isActive
+                  ? Colors.white
+                  : Theme.of(context).colorScheme.secondary,
               fontSize: DeviceUtilsService.isTablet(context) ? 12.sp : 15.sp,
-              fontWeight: isActive ? .bold : .w400,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.w400,
             ),
           ),
           Gap(8.h),
           Text(
             time,
             style: TextStyle(
-              color: isActive ? Colors.white : Theme.of(context).colorScheme.secondary,
+              color: isActive
+                  ? Colors.white
+                  : Theme.of(context).colorScheme.secondary,
               fontSize: DeviceUtilsService.isTablet(context) ? 12.sp : 15.sp,
-              fontWeight: isActive ? .bold : .w400,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.w400,
             ),
           ),
         ],

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ummah/core/services/device_utils_service.dart';
-import 'package:ummah/features/azkar/presentation/models/azkar_category.dart';
+import 'package:ummah/features/azkar/domain/entities/azkar_category.dart';
 import 'package:ummah/features/azkar/presentation/screens/azkar_detail_screen.dart';
 
 class AzkarCategoryCard extends StatelessWidget {
   final AzkarCategory category;
   final int index;
-  const AzkarCategoryCard({super.key, required this.category, required this.index});
+  const AzkarCategoryCard({
+    super.key,
+    required this.category,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,7 @@ class AzkarCategoryCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.onInverseSurface,
         borderRadius: BorderRadius.circular(25.r),
         boxShadow: [
           BoxShadow(
@@ -36,29 +39,27 @@ class AzkarCategoryCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AzkarDetailScreen(title: category.title, index: index),
+                builder: (context) =>
+                    AzkarDetailScreen(title: category.title, index: index),
               ),
             );
           },
           child: Padding(
             padding: EdgeInsets.all(16.r),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: .center,
               children: [
                 Container(
                   padding: EdgeInsets.all(12.r),
+                  clipBehavior: .antiAlias,
                   decoration: BoxDecoration(
                     color: category.baseColor.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: SvgPicture.asset(
+                  child: Icon(
                     category.icon,
-                    width: 35.w,
-                    height: 35.w,
-                    colorFilter: ColorFilter.mode(
-                      category.baseColor,
-                      BlendMode.srcIn,
-                    ),
+                    size: 35.w,
+                    color: category.baseColor,
                   ),
                 ),
                 Gap(12.h),
@@ -68,16 +69,20 @@ class AzkarCategoryCard extends StatelessWidget {
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: .bold,
                     fontFamily: 'Main',
-                    fontSize: DeviceUtilsService.isTablet(context) ? 13.sp : 14.sp,
+                    fontSize: DeviceUtilsService.isTablet(context)
+                        ? 13.sp
+                        : 14.sp,
                   ),
                 ),
                 Gap(4.h),
                 Text(
                   category.count,
                   style: GoogleFonts.cairo(
-                    fontSize: DeviceUtilsService.isTablet(context) ? 10.sp : 12.sp,
+                    fontSize: DeviceUtilsService.isTablet(context)
+                        ? 10.sp
+                        : 12.sp,
                     color: Colors.grey[500],
-                  )
+                  ),
                 ),
               ],
             ),

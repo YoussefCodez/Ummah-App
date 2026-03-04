@@ -6,6 +6,7 @@ import 'package:ummah/features/home/domain/entities/timing_entity.dart';
 import 'package:ummah/features/home/domain/use_cases/get_timing_by_city_usecase.dart';
 import 'package:ummah/features/home/presentation/cubit/salwat_strategy.dart';
 import 'package:ummah/core/services/notification_service.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 import 'package:ummah/features/home/domain/entities/timing_date_time.dart';
 
 part 'get_timing_by_city_state.dart';
@@ -45,26 +46,25 @@ class GetTimingByCityCubit extends Cubit<GetTimingByCityState> {
 
   void _schedulePrayers(TimingEntity timing) {
     final prayers = {
-      0: ("الفجر", timing.fajrDateTime),
-      1: ("الظهر", timing.dhuhrDateTime),
-      2: ("العصر", timing.asrDateTime),
-      3: ("المغرب", timing.maghribDateTime),
-      4: ("العشاء", timing.ishaDateTime),
+      0: (AppStrings.fajrAr, timing.fajrDateTime),
+      1: (AppStrings.dhuhrAr, timing.dhuhrDateTime),
+      2: (AppStrings.asrAr, timing.asrDateTime),
+      3: (AppStrings.maghribAr, timing.maghribDateTime),
+      4: (AppStrings.ishaAr, timing.ishaDateTime),
     };
 
     prayers.forEach((id, data) {
       final name = data.$1;
       var time = data.$2;
 
-      // إذا كان وقت الصلاة قد مضى اليوم، نجدولها لغداً
       if (time.isBefore(DateTime.now())) {
         time = time.add(const Duration(days: 1));
       }
 
       notificationService.scheduleNotification(
         id: id,
-        title: "صلاة $name",
-        body: "حان الآن موعد أذان $name",
+        title: "${AppStrings.notificationTitle} $name",
+        body: "${AppStrings.notificationBody} $name",
         scheduledDate: time,
       );
     });

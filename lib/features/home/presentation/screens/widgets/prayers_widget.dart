@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/core/theme/app_colors.dart';
 import 'package:ummah/features/home/presentation/cubit/get_timing_by_city_cubit.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 
 class PrayersWidget extends StatelessWidget {
   const PrayersWidget({super.key});
@@ -17,7 +18,9 @@ class PrayersWidget extends StatelessWidget {
           final currentSalah = state.salwat[state.activeAndNextIndex.$1];
           final nextSalah = state.salwat[state.activeAndNextIndex.$2];
           return Padding(
-            padding: REdgeInsets.all(DeviceUtilsService.isTablet(context) ? 22.r : 18),
+            padding: REdgeInsets.all(
+              DeviceUtilsService.isTablet(context) ? 22.r : 18,
+            ),
             child: Column(
               children: [
                 Container(
@@ -32,23 +35,32 @@ class PrayersWidget extends StatelessWidget {
                       end: Alignment.bottomCenter,
                     ),
                     borderRadius: BorderRadius.circular(17.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(alpha: 0.2),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
                   ),
                   child: Row(
                     children: [
                       Padding(
                         padding: REdgeInsets.symmetric(
-                          horizontal: 15,
+                          horizontal: 20,
                           vertical: 21,
                         ),
                         child: Column(
-                          crossAxisAlignment: .start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               currentSalah.name,
                               style: TextStyle(
                                 color: AppColors.secondryColorText,
                                 fontSize: 14.sp,
-                                fontWeight: .w500,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
@@ -57,17 +69,21 @@ class PrayersWidget extends StatelessWidget {
                               ),
                               style: TextStyle(
                                 color: AppColors.secondryColorText,
-                                fontSize: DeviceUtilsService.isTablet(context) ? 25.sp : 30.sp,
-                                fontWeight: .bold,
+                                fontSize: DeviceUtilsService.isTablet(context)
+                                    ? 25.sp
+                                    : 30.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             Gap(20.h),
                             Text(
-                              "Next Pray : ${nextSalah.name}",
+                              "${AppStrings.nextPrayLabel} : ${nextSalah.name}",
                               style: TextStyle(
                                 color: AppColors.secondryColorText,
-                                fontSize: DeviceUtilsService.isTablet(context) ? 16.sp : 18.sp,
-                                fontWeight: .w500,
+                                fontSize: DeviceUtilsService.isTablet(context)
+                                    ? 16.sp
+                                    : 18.sp,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
@@ -77,7 +93,7 @@ class PrayersWidget extends StatelessWidget {
                               style: TextStyle(
                                 color: AppColors.secondryColorText,
                                 fontSize: 20.sp,
-                                fontWeight: .bold,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -86,9 +102,9 @@ class PrayersWidget extends StatelessWidget {
                       Expanded(
                         child: Image.asset(
                           "assets/images/quran.png",
-                          height: 170.h,
-                          width: 170.w,
-                          fit: .cover,
+                          height: 150.h,
+                          width: 150.w,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ],

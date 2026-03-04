@@ -11,6 +11,7 @@ import 'package:ummah/features/quran/presentation/cubit/quran_cubit.dart';
 import 'package:ummah/features/quran/presentation/screens/widgets/empty_state_view.dart';
 import 'package:ummah/features/quran/presentation/screens/widgets/quran_header.dart';
 import 'package:ummah/features/quran/presentation/screens/widgets/quran_search_bar.dart';
+import 'package:ummah/features/quran/presentation/screens/widgets/saved_pages.dart';
 import 'package:ummah/features/quran/presentation/screens/widgets/surah_tile.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_state.dart';
@@ -39,7 +40,11 @@ class QuranView extends StatelessWidget {
         toolbarHeight: 0,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Theme.of(context).scaffoldBackgroundColor,
-          statusBarIconBrightness: Brightness.dark,
+          statusBarIconBrightness:
+              Theme.of(context).brightness == Brightness.dark
+              ? Brightness.light
+              : Brightness.dark,
+          statusBarBrightness: Theme.of(context).brightness,
         ),
       ),
       body: SafeArea(
@@ -49,6 +54,14 @@ class QuranView extends StatelessWidget {
             QuranSearchBar(
               onChanged: (query) =>
                   context.read<QuranCubit>().filterSurahs(query),
+            ),
+            BlocBuilder<SettingsCubit, SettingsState>(
+              builder: (context, state) {
+                return state is SettingsLoaded &&
+                        state.settings.mushafMode == "mushaf"
+                    ? const SavedPages()
+                    : const SizedBox.shrink();
+              },
             ),
             Expanded(
               child: BlocBuilder<QuranCubit, QuranState>(
@@ -119,7 +132,9 @@ class QuranView extends StatelessWidget {
                                 child: Container(
                                   padding: EdgeInsets.all(15.r),
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                     borderRadius: BorderRadius.circular(12.r),
                                   ),
                                   child: Column(
@@ -128,11 +143,14 @@ class QuranView extends StatelessWidget {
                                     children: [
                                       Text(
                                         '${ayah.text}...',
-                                        textDirection: .rtl,
-                                        textAlign: .right,
+                                        textDirection: TextDirection.rtl,
+                                        textAlign: TextAlign.right,
                                         style: TextStyle(
                                           fontSize: 18.sp,
-                                          fontWeight: .bold,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
                                         ),
                                       ),
                                       Gap(8.h),
@@ -141,7 +159,7 @@ class QuranView extends StatelessWidget {
                                         style: TextStyle(
                                           fontSize: 12.sp,
                                           color: AppColors.primaryColor,
-                                          fontWeight: .w600,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ],
@@ -170,7 +188,7 @@ class QuranView extends StatelessWidget {
   }
 }
 
-_navigateToSurahDetails({
+void _navigateToSurahDetails({
   required SurahMetadata surah,
   required BuildContext context,
   required String showType,
@@ -178,8 +196,22 @@ _navigateToSurahDetails({
 }) {
   if (showType == 'mushaf') {
     Navigator.of(context, rootNavigator: true).push(
-      CupertinoPageRoute(
-        builder: (context) => MushafScreen(initialPage: initialPage),
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            MushafScreen(initialPage: initialPage),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          var tween = Tween(
+            begin: begin,
+            end: end,
+          ).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(position: offsetAnimation, child: child);
+        },
       ),
     );
   } else if (showType == "ayah") {

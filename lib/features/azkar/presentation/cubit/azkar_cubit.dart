@@ -22,16 +22,37 @@ class AzkarCubit extends Cubit<AzkarState> {
         azkar = service.getAzkarByCategory(ZekrCategory.evening);
         break;
       case 2:
-        azkar = service.getAzkarByCategory(ZekrCategory.wakingUp);
+        azkar = service.getAzkarByCategory(ZekrCategory.eating);
         break;
       case 3:
-        azkar = service.getAzkarByCategory(ZekrCategory.wudu);
+        azkar = service.getAzkarByCategory(ZekrCategory.mosque);
         break;
       case 4:
-        azkar = service.getAzkarByCategory(ZekrCategory.afterPrayer);
+        azkar = service.getAzkarByCategory(ZekrCategory.house);
         break;
       case 5:
-        azkar = service.getAzkarByCategory(ZekrCategory.azan);
+        azkar = service.getAzkarByCategory(ZekrCategory.wakingUp);
+        break;
+      case 6:
+        azkar = service.getAzkarByCategory(ZekrCategory.protection);
+        break;
+      case 7:
+        azkar = service.getAzkarByCategory(ZekrCategory.travel);
+        break;
+      case 8:
+        azkar = service.getAzkarByCategory(ZekrCategory.emotions);
+        break;
+      case 9:
+        azkar = service.getAzkarByCategory(ZekrCategory.prayerSupplications);
+        break;
+      case 10:
+        azkar = service.getAzkarByCategory(ZekrCategory.wudu);
+        break;
+      case 11:
+        azkar = service.getAzkarByCategory(ZekrCategory.nature);
+        break;
+      case 12:
+        azkar = service.getAzkarByCategory(ZekrCategory.fasting);
         break;
       default:
         azkar = [];

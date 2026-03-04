@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_with_tafsir/quran_with_tafsir.dart';
-import 'package:ummah/core/theme/app_colors.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_state.dart';
 import 'package:ummah/features/surah_details/presentation/cubit/quran_tafsir_cubit.dart';
 import 'package:ummah/features/surah_details/presentation/screens/widgets/play_button.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 
 class AyahBottomSheet extends StatelessWidget {
   final Ayah ayah;
@@ -22,11 +22,11 @@ class AyahBottomSheet extends StatelessWidget {
       ),
       padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
       ),
       child: Column(
-        mainAxisSize: .min,
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Handle bar
           Container(
@@ -34,22 +34,22 @@ class AyahBottomSheet extends StatelessWidget {
             height: 4.h,
             margin: EdgeInsets.only(bottom: 20.h),
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: Theme.of(context).colorScheme.outlineVariant,
               borderRadius: BorderRadius.circular(10.r),
             ),
           ),
 
           // Header with Play Action
           Row(
-            mainAxisAlignment: .spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "آية  ${ayah.id}",
+                "${AppStrings.ayah}  ${ayah.id}",
                 style: TextStyle(
                   fontSize: 18.sp,
-                  fontWeight: .bold,
+                  fontWeight: FontWeight.bold,
                   fontFamily: 'QuranFont',
-                  color: AppColors.primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               PlayButton(ayah: ayah),
@@ -65,13 +65,15 @@ class AyahBottomSheet extends StatelessWidget {
                 child: SingleChildScrollView(
                   physics: const ClampingScrollPhysics(),
                   child: Column(
-                    crossAxisAlignment: .stretch,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Ayah Text
                       Container(
                         padding: EdgeInsets.all(15.r),
                         decoration: BoxDecoration(
-                          color: AppColors.primaryColor.withValues(alpha: 0.05),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(15.r),
                         ),
                         child: Text(
@@ -81,19 +83,19 @@ class AyahBottomSheet extends StatelessWidget {
                             fontFamily: 'QuranFont',
                             fontSize: 22.sp,
                             height: 1.8,
-                            color: Colors.black87,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
                       Gap(20.h),
                       // Tafsir Section
                       Text(
-                        "التفسير",
-                        textDirection: .rtl,
+                        AppStrings.tafsir,
+                        textDirection: TextDirection.rtl,
                         style: TextStyle(
                           fontSize: 16.sp,
-                          fontWeight: .bold,
-                          color: Colors.grey[800],
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       Gap(10.h),
@@ -106,24 +108,29 @@ class AyahBottomSheet extends StatelessWidget {
                           }
                           if (state is QuranTafsirFailure) {
                             return Text(
-                              "عذراً، فشل تحميل التفسير",
+                              AppStrings.tafsirError,
                               style: TextStyle(
-                                color: Colors.red,
+                                color: Theme.of(context).colorScheme.error,
                                 fontSize: 14.sp,
                               ),
                             );
                           }
                           if (state is QuranTafsirSuccess) {
                             final tafsirText =
-                                state.tafsir[ayah.id] ?? "التفسير غير متوفر";
-                            final cleanedTafsir = tafsirText.substring(4);
+                                state.tafsir[ayah.id] ??
+                                AppStrings.tafsirNotAvailable;
+                            final cleanedTafsir = tafsirText.length > 4
+                                ? tafsirText.substring(4)
+                                : tafsirText;
                             return Text(
                               cleanedTafsir,
-                              textDirection: .rtl,
+                              textDirection: TextDirection.rtl,
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 height: 1.6,
-                                color: Colors.black54,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
                               ),
                             );
                           }

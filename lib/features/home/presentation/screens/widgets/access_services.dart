@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:ummah/core/config/select_page_cubit.dart';
-import 'package:ummah/core/theme/app_colors.dart';
+import 'package:ummah/features/dua/presentation/screens/dua_screen.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 import 'package:ummah/features/home/presentation/screens/widgets/service_widget.dart';
+import 'package:ummah/features/tasbih/presentation/screens/tasbih_screen.dart';
 
 class AccessServices extends StatefulWidget {
   const AccessServices({super.key, required this.controller});
@@ -20,23 +22,23 @@ class _AccessServicesState extends State<AccessServices> {
     return Padding(
       padding: REdgeInsets.symmetric(horizontal: 18),
       child: Column(
-        crossAxisAlignment: .start,
-        spacing: 10.h,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 12.h,
         children: [
           Text(
-            "Quick Access",
+            AppStrings.quickAccess,
             style: TextStyle(
-              fontSize: 23.sp,
-              fontWeight: .bold,
-              color: AppColors.primaryColor,
+              fontSize: 22.sp,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           Row(
-            spacing: 10.h,
+            spacing: 12.w,
             children: [
               Service(
                 icon: "assets/svgs/quran.svg",
-                text: "Quran",
+                text: AppStrings.quranEn,
                 onTap: () {
                   context.read<SelectPageCubit>().selectPage(2);
                   widget.controller.jumpToTab(
@@ -46,20 +48,48 @@ class _AccessServicesState extends State<AccessServices> {
               ),
               Service(
                 icon: "assets/svgs/tasbeeh.svg",
-                text: "Sebha",
-                onTap: () {},
+                text: AppStrings.sebha,
+                onTap: () {
+                  Navigator.of(context, rootNavigator: true).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const TasbihScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(0.0, 1.0);
+                            const end = Offset.zero;
+                            const curve = Curves.easeOutCubic;
+
+                            var tween = Tween(
+                              begin: begin,
+                              end: end,
+                            ).chain(CurveTween(curve: curve));
+                            var offsetAnimation = animation.drive(tween);
+
+                            return SlideTransition(
+                              position: offsetAnimation,
+                              child: child,
+                            );
+                          },
+                    ),
+                  );
+                },
               ),
             ],
           ),
           Row(
-            spacing: 10.h,
+            spacing: 12.w,
             children: [
-              Service(icon: "assets/svgs/dua2.svg", text: "Dua", onTap: () {}),
               Service(
-                icon: "assets/svgs/hadeeth.svg",
-                text: "Ahadith",
-                onTap: () {},
+                icon: "assets/svgs/dua2.svg",
+                text: AppStrings.dua,
+                onTap: () {
+                  Navigator.of(context, rootNavigator: true).push(
+                    MaterialPageRoute(builder: (context) => const DuaScreen()),
+                  );
+                },
               ),
+              const Spacer(),
             ],
           ),
         ],

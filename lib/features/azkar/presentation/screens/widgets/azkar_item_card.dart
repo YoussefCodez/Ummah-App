@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ummah/core/theme/app_colors.dart';
 
 class AzkarItemCard extends StatelessWidget {
   final String text;
@@ -30,7 +29,11 @@ class AzkarItemCard extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
-        color: isDone ? Colors.grey[100] : Colors.white,
+        color: isDone
+            ? Theme.of(
+                context,
+              ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5)
+            : Theme.of(context).colorScheme.onInverseSurface,
         borderRadius: BorderRadius.circular(30.r),
         border: Border.all(
           color: isDone
@@ -57,7 +60,9 @@ class AzkarItemCard extends StatelessWidget {
               fontFamily: 'QuranFont',
               fontSize: 24.sp,
               height: 1.8,
-              color: isDone ? Colors.grey[400] : Colors.black87,
+              color: isDone
+                  ? Theme.of(context).colorScheme.outlineVariant
+                  : Theme.of(context).colorScheme.onSurface,
             ),
           ),
           if (source != null) ...[
@@ -66,7 +71,7 @@ class AzkarItemCard extends StatelessWidget {
               source!,
               style: TextStyle(
                 fontSize: 12.sp,
-                color: Colors.grey[400],
+                color: Theme.of(context).colorScheme.outline,
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -81,7 +86,9 @@ class AzkarItemCard extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 icon: Icon(
                   Icons.refresh,
-                  color: isDone ? AppColors.primaryColor : Colors.grey[300],
+                  color: isDone
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.outlineVariant,
                   size: 20.r,
                 ),
               ),
@@ -93,7 +100,10 @@ class AzkarItemCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: isDone
-                          ? [Colors.grey[300]!, Colors.grey[400]!]
+                          ? [
+                              Theme.of(context).colorScheme.outlineVariant,
+                              Theme.of(context).colorScheme.outline,
+                            ]
                           : [
                               theme.colorScheme.primary,
                               theme.colorScheme.primary.withValues(alpha: 0.7),
@@ -115,7 +125,7 @@ class AzkarItemCard extends StatelessWidget {
                     child: Text(
                       "$count / $maxCount",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),

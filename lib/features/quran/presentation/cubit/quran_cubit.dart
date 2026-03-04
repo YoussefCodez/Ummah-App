@@ -45,8 +45,8 @@ class QuranCubit extends Cubit<QuranState> {
   void loadSpecificSurah(int surahNumber) {
     try {
       emit(QuranSurahLoading());
-      final _surah = _quranService.getSurah(surahNumber);
-      emit(QuranSurahSuccess(surah: _surah));
+      final surah = _quranService.getSurah(surahNumber);
+      emit(QuranSurahSuccess(surah: surah));
     } catch (e) {
       emit(QuranSurahFailure(message: e.toString()));
     }

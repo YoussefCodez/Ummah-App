@@ -10,7 +10,7 @@ class SettingsCard extends StatelessWidget {
     return Container(
       padding: REdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(

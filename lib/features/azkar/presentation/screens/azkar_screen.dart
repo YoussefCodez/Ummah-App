@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ummah/features/azkar/presentation/models/azkar_category.dart';
+import 'package:ummah/features/azkar/domain/entities/azkar_category.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 import 'package:ummah/features/azkar/presentation/screens/widgets/azkar_category_card.dart';
 
 class AzkarScreen extends StatelessWidget {
@@ -10,45 +12,86 @@ class AzkarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
 
     final categories = [
       AzkarCategory(
-        title: "أذكار الصباح",
-        icon: "assets/svgs/sun.svg",
-        baseColor: const Color(0xFFFFB74D), 
-        count: "١٤ ذِكر",
+        title: AppStrings.morningAzkar,
+        icon: Icons.wb_sunny_rounded,
+        baseColor: const Color(0xFFFFB74D),
+        count: "٢٢ ذِكر",
       ),
       AzkarCategory(
-        title: "أذكار المساء",
-        icon: "assets/svgs/maghreeb.svg",
-        baseColor: const Color(0xFF5C6BC0), 
-        count: "٢٥ ذِكر",
+        title: AppStrings.eveningAzkar,
+        icon: Icons.dark_mode_rounded,
+        baseColor: const Color(0xFF5C6BC0),
+        count: "٢٦ ذِكر",
       ),
       AzkarCategory(
-        title: "أذكار الاستيقاظ",
-        icon: "assets/svgs/sunrise.svg",
-        baseColor: const Color(0xFF4DB6AC), 
+        title: AppStrings.foodAzkar,
+        icon: Icons.restaurant_rounded,
+        baseColor: const Color(0xFF81C784),
+        count: "٨ أذكار",
+      ),
+      AzkarCategory(
+        title: AppStrings.mosqueAzkar,
+        icon: Icons.mosque_rounded,
+        baseColor: const Color(0xFF4DB6AC),
+        count: "٦ أذكار",
+      ),
+      AzkarCategory(
+        title: AppStrings.homeAzkar,
+        icon: Icons.home_rounded,
+        baseColor: const Color(0xFFA1887F),
+        count: "٤ أذكار",
+      ),
+      AzkarCategory(
+        title: AppStrings.wakingUpAzkar,
+        icon: Icons.wb_twilight_rounded,
+        baseColor: const Color(0xFFFFF176),
         count: "١٠ أذكار",
       ),
       AzkarCategory(
-        title: "أذكار النوم",
-        icon: "assets/svgs/isah.svg",
-        baseColor: const Color(0xFF263238), 
+        title: AppStrings.protectionAzkar,
+        icon: Icons.shield_rounded,
+        baseColor: const Color(0xFFE57373),
+        count: "١٢ ذِكر",
+      ),
+      AzkarCategory(
+        title: AppStrings.travelAzkar,
+        icon: Icons.flight_takeoff_rounded,
+        baseColor: const Color(0xFF64B5F6),
+        count: "٩ أذكار",
+      ),
+      AzkarCategory(
+        title: AppStrings.feelingsAzkar,
+        icon: Icons.favorite_rounded,
+        baseColor: const Color(0xFFBA68C8),
         count: "١٥ ذِكر",
       ),
       AzkarCategory(
-        title: "بعد الصلاة",
-        icon: "assets/svgs/tasbeeh.svg",
-        baseColor: colorScheme.primary,
+        title: AppStrings.prayerAzkar,
+        icon: Icons.pan_tool_alt_rounded,
+        baseColor: const Color(0xFF9575CD),
         count: "١٨ ذِكر",
       ),
       AzkarCategory(
-        title: "أدعية عامة",
-        icon: "assets/svgs/dua2.svg",
-        baseColor: colorScheme.secondary,
-        count: "٥٠ دعاء",
+        title: AppStrings.wuduAzkar,
+        icon: Icons.water_drop_rounded,
+        baseColor: const Color(0xFF4FC3F7),
+        count: "٥ أذكار",
+      ),
+      AzkarCategory(
+        title: AppStrings.natureAzkar,
+        icon: Icons.eco_rounded,
+        baseColor: const Color(0xFFDCE775),
+        count: "٧ أذكار",
+      ),
+      AzkarCategory(
+        title: AppStrings.fastingAzkar,
+        icon: Icons.nights_stay_rounded,
+        baseColor: const Color(0xFFFF8A65),
+        count: "٤ أذكار",
       ),
     ];
 
@@ -59,9 +102,14 @@ class AzkarScreen extends StatelessWidget {
             pinned: true,
             expandedHeight: 220.h,
             backgroundColor: Colors.black.withValues(alpha: 0.6),
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.dark,
+            ),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                "حصن المسلم",
+                AppStrings.hisnAlMuslim,
                 style: textTheme.titleLarge?.copyWith(
                   fontFamily: 'QuranFont',
                   color: Colors.white,
@@ -76,10 +124,10 @@ class AzkarScreen extends StatelessWidget {
               ),
               centerTitle: true,
               background: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/azkar_header.jpg"),
-                    fit: .cover,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 child: Container(

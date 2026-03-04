@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AzkarCategory {
   final String title;
-  final String icon;
+  final IconData icon;
   final Color baseColor;
   final String count;
 

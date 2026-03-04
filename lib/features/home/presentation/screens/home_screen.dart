@@ -66,7 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
             toolbarHeight: 0,
             systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Theme.of(context).scaffoldBackgroundColor,
-              statusBarIconBrightness: Brightness.dark,
+              statusBarIconBrightness:
+                  Theme.of(context).brightness == Brightness.dark
+                  ? Brightness.light
+                  : Brightness.dark,
+              statusBarBrightness: Theme.of(context).brightness,
             ),
           ),
           body: SingleChildScrollView(

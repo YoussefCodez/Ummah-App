@@ -27,12 +27,16 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
           defaultValue: Reciters.abdulBasit,
         ) ??
         Reciters.abdulBasit;
+    final isDarkMode =
+        hiveService.getSetting<bool>('isDarkMode', defaultValue: false) ??
+        false;
 
     return SettingsEntity(
       textFontSize: textFontSize,
       isTextBold: isTextBold,
       mushafMode: mushafMode,
       reciter: reciter,
+      isDarkMode: isDarkMode,
     );
   }
 
@@ -45,5 +49,6 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
     await hiveService.saveSetting<bool>('isTextBold', settings.isTextBold);
     await hiveService.saveSetting<String>('mushafMode', settings.mushafMode);
     await hiveService.saveSetting<String>('reciter', settings.reciter);
+    await hiveService.saveSetting<bool>('isDarkMode', settings.isDarkMode);
   }
 }

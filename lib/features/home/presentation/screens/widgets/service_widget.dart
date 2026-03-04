@@ -17,7 +17,7 @@ class Service extends StatelessWidget {
         child: Container(
           padding: REdgeInsets.symmetric(horizontal: 10, vertical: 30),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
             borderRadius: BorderRadius.circular(17.r),
             border: Border.all(
               color: Colors.grey.withAlpha(50),
@@ -44,7 +44,7 @@ class Service extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: .w500,
-                    color: AppColors.onThirdColor.withValues(alpha: .8),
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),

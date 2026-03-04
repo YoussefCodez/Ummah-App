@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_with_tafsir/models/surah.dart';
-import 'package:ummah/core/theme/app_colors.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 import 'package:ummah/features/quran/presentation/cubit/quran_cubit.dart';
 import 'package:ummah/features/surah_details/presentation/cubit/is_playing_ayah_cubit.dart';
 
@@ -28,7 +28,9 @@ class _PlayButtonState extends State<PlayButton> {
           icon: Icon(
             Icons.play_circle_outline,
             size: 24.r,
-            color: state ? AppColors.onPrimaryColor : AppColors.primaryColor,
+            color: state
+                ? Theme.of(context).colorScheme.onSurfaceVariant
+                : Theme.of(context).colorScheme.primary,
           ),
           onPressed: () {
             final quranCubit = context.read<QuranCubit>();
@@ -50,7 +52,7 @@ class _PlayButtonState extends State<PlayButton> {
             } else {
               ScaffoldMessenger.of(
                 context,
-              ).showSnackBar(SnackBar(content: Text("لا يوجد صوت لهذا الآية")));
+              ).showSnackBar(SnackBar(content: Text(AppStrings.noAudio)));
             }
           },
         );

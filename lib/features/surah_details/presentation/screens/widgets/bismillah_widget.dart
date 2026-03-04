@@ -16,16 +16,16 @@ class BismillahWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 10.h),
             child: Text(
               "بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ",
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.rtl,
-            style: TextStyle(
-              fontFamily: 'QuranFont',
-              fontSize: state.settings.textFontSize.sp,
-              fontWeight: state.settings.isTextBold ? .bold : .normal,
-              color: Colors.black,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.rtl,
+              style: TextStyle(
+                fontFamily: 'QuranFont',
+                fontSize: state.settings.textFontSize.sp,
+                fontWeight: state.settings.isTextBold ? .bold : .normal,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
-          ),
-        );
+          );
         }
         return const SizedBox.shrink();
       },

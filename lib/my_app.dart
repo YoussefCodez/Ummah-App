@@ -5,6 +5,8 @@ import 'package:ummah/core/config/select_page_cubit.dart';
 import 'package:ummah/core/services/get_it_service.dart';
 import 'package:ummah/core/theme/app_theme.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_cubit.dart';
+import 'package:ummah/features/settings/presentation/cubit/settings_state.dart';
+import 'package:ummah/features/surah_details/presentation/cubit/saved_cubit.dart';
 import 'package:ummah/main_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -16,16 +18,24 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => SelectPageCubit()),
         BlocProvider(create: (context) => getIt<SettingsCubit>()),
+        BlocProvider(create: (context) => SavedCubit()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
-        builder: (context, child) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.light,
-          scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
-          home: const MainScreen(),
+        builder: (context, child) => BlocBuilder<SettingsCubit, SettingsState>(
+          builder: (context, state) {
+            final isDark = state is SettingsLoaded && state.settings.isDarkMode;
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+              scrollBehavior: const ScrollBehavior().copyWith(
+                overscroll: false,
+              ),
+              home: const MainScreen(),
+            );
+          },
         ),
       ),
     );

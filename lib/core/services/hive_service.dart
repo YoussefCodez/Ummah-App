@@ -7,12 +7,13 @@ class HiveService {
   late Box timingsBox;
   late Box azkarBox;
   late Box settingsBox;
-
+  late Box savedPagesBox;
   Future<void> init() async {
     locationBox = await Hive.openBox('location');
     timingsBox = await Hive.openBox('timings');
     azkarBox = await Hive.openBox('azkar');
     settingsBox = await Hive.openBox('settings');
+    savedPagesBox = await Hive.openBox('saved_pages');
   }
 
   Future<void> saveLocation(String location) async {
@@ -75,5 +76,15 @@ class HiveService {
 
   T? getSetting<T>(String key, {T? defaultValue}) {
     return settingsBox.get(key, defaultValue: defaultValue) as T?;
+  }
+
+  // --- Saved Pages Caching ---
+
+  Future<void> saveSavedPages(Map<int, dynamic> savedPages) async {
+    await savedPagesBox.put('saved_pages', savedPages);
+  }
+
+  Map<dynamic, dynamic>? getSavedPages() {
+    return savedPagesBox.get('saved_pages') as Map<dynamic, dynamic>?;
   }
 }

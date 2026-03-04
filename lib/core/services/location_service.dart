@@ -2,7 +2,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
-
 @LazySingleton()
 class LocationService {
   Future<String> getCurrentGovernorate() async {
@@ -66,7 +65,8 @@ class LocationService {
           .trim();
       return '$governorate, $country';
     } catch (e) {
-      print('Geocoding error: $e'); 
+      // ignore: avoid_print
+      print('Geocoding error: $e');
       return "Couldn't fetch address information";
     }
   }

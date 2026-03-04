@@ -53,4 +53,14 @@ class SettingsCubit extends Cubit<SettingsState> {
       _updateAndSave(newSettings);
     }
   }
+
+  void changeDarkMode(bool isDarkMode) {
+    if (state is SettingsLoaded) {
+      final currentState = state as SettingsLoaded;
+      final newSettings = currentState.settings.copyWith(
+        isDarkMode: isDarkMode,
+      );
+      _updateAndSave(newSettings);
+    }
+  }
 }

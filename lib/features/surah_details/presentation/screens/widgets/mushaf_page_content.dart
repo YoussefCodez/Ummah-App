@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ummah/features/quran/presentation/cubit/quran_cubit.dart';
 import 'package:quran_with_tafsir/quran_with_tafsir.dart';
-import 'package:ummah/core/theme/app_colors.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 import 'package:ummah/features/surah_details/presentation/cubit/is_playing_ayah_cubit.dart';
 import 'package:ummah/features/surah_details/presentation/cubit/quran_tafsir_cubit.dart';
 import 'package:ummah/features/surah_details/presentation/cubit/select_ayah_cubit.dart';
@@ -27,7 +27,6 @@ class MushafPageContent extends StatelessWidget {
   });
 
   void _showAyahDetails(BuildContext context, Ayah ayah) {
-    // تحميل التفسير للسورة الحالية
     context.read<QuranTafsirCubit>().loadTafsir(ayah.surahNumber);
 
     showModalBottomSheet(
@@ -67,8 +66,8 @@ class MushafPageContent extends StatelessWidget {
           (s) => s.number == currentSurah,
           orElse: () => SurahMetadata(
             number: currentSurah!,
-            nameAr: "سورة",
-            nameEn: "Surah",
+            nameAr: AppStrings.surah,
+            nameEn: AppStrings.surah,
             revelationType: "",
             ayahCount: 0,
           ),
@@ -93,7 +92,7 @@ class MushafPageContent extends StatelessWidget {
             },
           style: TextStyle(
             backgroundColor: isSelected
-                ? AppColors.primaryColor.withValues(alpha: 0.2)
+                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)
                 : Colors.transparent,
           ),
         ),
@@ -130,13 +129,13 @@ class _RichTextWidget extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'QuranFont',
               fontSize: fontSize.sp,
-              fontWeight: isBold ? .bold : .normal,
-              color: Colors.black87,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              color: Theme.of(context).colorScheme.onSurface,
               height: 2.0,
             ),
           ),
-          textAlign: .justify,
-          textDirection: .rtl,
+          textAlign: TextAlign.justify,
+          textDirection: TextDirection.rtl,
         );
       },
     );

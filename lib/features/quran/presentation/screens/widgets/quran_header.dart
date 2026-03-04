@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ummah/core/theme/app_colors.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 
 class QuranHeader extends StatelessWidget {
   const QuranHeader({super.key});
@@ -17,29 +17,36 @@ class QuranHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Quran",
+                AppStrings.quranEn,
                 style: TextStyle(
                   fontSize: 28.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   fontFamily: 'Main',
                 ),
               ),
               Text(
-                "Choose the surah",
-                style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
+                AppStrings.chooseSurah,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
               ),
             ],
           ),
           Container(
-            padding: EdgeInsets.all(10.r),
+            padding: EdgeInsets.all(12.r),
             decoration: BoxDecoration(
-              color: AppColors.primaryColor.withValues(alpha: 0.1),
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               CupertinoIcons.book_fill,
-              color: AppColors.primaryColor,
+              color: Theme.of(context).colorScheme.primary,
               size: 26.r,
             ),
           ),

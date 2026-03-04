@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ummah/features/quran/presentation/cubit/quran_cubit.dart';
+import 'package:ummah/features/surah_details/presentation/cubit/saved_cubit.dart';
 import 'package:ummah/features/surah_details/presentation/cubit/select_ayah_cubit.dart';
 import 'package:ummah/features/surah_details/presentation/screens/widgets/mushaf_page_content.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 
 class MushafPage extends StatefulWidget {
   const MushafPage({super.key, required this.pageNumber});
@@ -62,18 +64,58 @@ class _MushafPageState extends State<MushafPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          "الجزء ${quran.ayahs.first.juz}",
+                          "${AppStrings.juz} ${quran.ayahs.first.juz}",
                           style: TextStyle(
                             fontSize: 14.sp,
-                            color: Colors.grey[600],
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        BlocBuilder<SavedCubit, SavedState>(
+                          builder: (context, state) {
+                            bool isThisPageSaved = false;
+                            if (state is SavedSuccess) {
+                              isThisPageSaved = state.savedPages.containsKey(
+                                widget.pageNumber,
+                              );
+                            }
+                            return IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: () {
+                                final surah = quran.allSurahs.firstWhere(
+                                  (s) =>
+                                      s.number == quran.ayahs.first.surahNumber,
+                                );
+                                context.read<SavedCubit>().toggleSave(
+                                  widget.pageNumber,
+                                  quran.ayahs.first.juz,
+                                  surah.nameAr,
+                                  surah.nameEn,
+                                );
+                              },
+                              icon: Icon(
+                                isThisPageSaved
+                                    ? Icons.bookmark
+                                    : Icons.bookmark_border,
+                                size: 24.r,
+                                color: isThisPageSaved
+                                    ? Colors.amber
+                                    : Theme.of(context).colorScheme.onSurface
+                                          .withValues(alpha: 0.6),
+                              ),
+                            );
+                          },
+                        ),
                         Text(
-                          "صفحة ${widget.pageNumber}",
+                          "${AppStrings.page} ${widget.pageNumber}",
                           style: TextStyle(
                             fontSize: 14.sp,
-                            color: Colors.grey[600],
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                             fontWeight: FontWeight.bold,
                           ),
                         ),

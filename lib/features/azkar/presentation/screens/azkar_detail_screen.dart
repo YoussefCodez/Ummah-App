@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/features/azkar/presentation/cubit/azkar_cubit.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 import 'package:ummah/features/azkar/presentation/cubit/azkar_state.dart';
 import 'package:ummah/features/azkar/presentation/screens/widgets/azkar_item_card.dart';
 
@@ -27,8 +29,19 @@ class AzkarDetailScreen extends StatelessWidget {
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               elevation: 0,
               scrolledUnderElevation: 0,
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+                statusBarIconBrightness:
+                    Theme.of(context).brightness == Brightness.dark
+                    ? Brightness.light
+                    : Brightness.dark,
+                statusBarBrightness: Theme.of(context).brightness,
+              ),
               toolbarHeight: DeviceUtilsService.isTablet(context) ? 100 : 60,
-              title: Text(title, style: TextStyle(fontFamily: 'Main', fontSize: 14.sp)),
+              title: Text(
+                title,
+                style: TextStyle(fontFamily: 'Main', fontSize: 14.sp),
+              ),
               centerTitle: true,
               leading: IconButton(
                 icon: Icon(
@@ -42,8 +55,11 @@ class AzkarDetailScreen extends StatelessWidget {
                   onPressed: () {
                     context.read<AzkarCubit>().resetAll();
                   },
-                  icon: Icon(Icons.refresh, size: DeviceUtilsService.isTablet(context) ? 26 : 20,),
-                  tooltip: 'إعادة تعيين الكل',
+                  icon: Icon(
+                    Icons.refresh,
+                    size: DeviceUtilsService.isTablet(context) ? 26 : 20,
+                  ),
+                  tooltip: AppStrings.resetAll,
                 ),
               ],
             ),
@@ -66,9 +82,7 @@ class AzkarDetailScreen extends StatelessWidget {
                               text: zikr.text,
                               count: count,
                               maxCount: zikr.repeat,
-                              source:
-                                  (zikr.reference != null &&
-                                      zikr.reference!.isNotEmpty)
+                              source: zikr.reference.isNotEmpty
                                   ? zikr.reference
                                   : null,
                               onTap: () {

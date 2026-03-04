@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_with_tafsir/quran_with_tafsir.dart';
-import 'package:ummah/core/theme/app_colors.dart';
 import 'package:ummah/features/quran/presentation/cubit/quran_cubit.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_state.dart';
 import 'package:ummah/features/surah_details/presentation/cubit/quran_tafsir_cubit.dart';
+import 'package:ummah/core/constants/app_strings.dart';
 
 class AyahCard extends StatelessWidget {
   final Ayah ayah;
@@ -19,24 +19,29 @@ class AyahCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
         ],
+        border: Border.all(
+          color: Theme.of(
+            context,
+          ).colorScheme.outlineVariant.withValues(alpha: 0.5),
+        ),
       ),
       child: Column(
-        crossAxisAlignment: .stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildActionRow(context),
           Padding(
             padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.h),
             child: Column(
-              crossAxisAlignment: .end,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 BlocBuilder<SettingsCubit, SettingsState>(
                   builder: (context, state) {
@@ -48,7 +53,7 @@ class AyahCard extends StatelessWidget {
                           fontFamily: 'QuranFont',
                           fontSize: state.settings.textFontSize.sp,
                           height: 2.2,
-                          color: AppColors.onThirdColor,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       );
                     }
@@ -69,18 +74,18 @@ class AyahCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: AppColors.primaryColor.withValues(alpha: 0.05),
+        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.05),
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: Row(
         children: [
-          _buildAyahNumber(),
+          _buildAyahNumber(context),
           const Spacer(),
           IconButton(
             icon: Icon(
               Icons.play_circle_outline,
               size: 24.r,
-              color: AppColors.primaryColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
             onPressed: () {
               final url = context.read<QuranCubit>().getAudioUrl(
@@ -95,19 +100,19 @@ class AyahCard extends StatelessWidget {
     );
   }
 
-  Widget _buildAyahNumber() {
+  Widget _buildAyahNumber(BuildContext context) {
     return Container(
       width: 32.r,
       height: 32.r,
       decoration: BoxDecoration(
-        color: AppColors.primaryColor,
+        color: Theme.of(context).colorScheme.primary,
         shape: BoxShape.circle,
       ),
       child: Center(
         child: Text(
           ayah.id.toString(),
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             fontSize: 14.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -118,7 +123,7 @@ class AyahCard extends StatelessWidget {
 
   Widget _buildMetadataRow(BuildContext context) {
     return Column(
-      crossAxisAlignment: .start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         BlocBuilder<QuranTafsirCubit, QuranTafsirState>(
           builder: (context, state) {
@@ -129,13 +134,19 @@ class AyahCard extends StatelessWidget {
               return Center(child: Text(state.message));
             }
             if (state is QuranTafsirSuccess) {
+              final tafsirText = state.tafsir[ayah.id] ?? "";
+              final cleanedTafsir = tafsirText.length > 4
+                  ? tafsirText.substring(4)
+                  : tafsirText;
               return Text(
-                "التفسير : ${state.tafsir[ayah.id]!.substring(4)}",
-                textDirection: .rtl,
+                "${AppStrings.tafsir}: $cleanedTafsir",
+                textDirection: TextDirection.rtl,
                 style: TextStyle(
                   fontSize: 15.sp,
-                  color: Colors.black54,
-                  fontWeight: .w500,
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                  fontWeight: FontWeight.w500,
                 ),
               );
             }
@@ -143,7 +154,7 @@ class AyahCard extends StatelessWidget {
           },
         ),
         Row(
-          mainAxisAlignment: .start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             if (ayah.isSajda) ...[
               Container(
@@ -157,7 +168,7 @@ class AyahCard extends StatelessWidget {
                     Icon(Icons.auto_awesome, size: 14.r, color: Colors.orange),
                     Gap(4.w),
                     Text(
-                      'Sajda',
+                      AppStrings.sajda,
                       style: TextStyle(
                         fontSize: 11.sp,
                         color: Colors.orange,
@@ -170,10 +181,12 @@ class AyahCard extends StatelessWidget {
               Gap(10.w),
             ],
             Text(
-              'Juz ${ayah.juz}',
+              "${AppStrings.juzEn} ${ayah.juz}",
               style: TextStyle(
                 fontSize: 12.sp,
-                color: Colors.grey[400],
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.4),
                 fontWeight: FontWeight.w500,
               ),
             ),
