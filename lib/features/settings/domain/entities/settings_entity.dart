@@ -4,6 +4,7 @@ class SettingsEntity {
   final String mushafMode;
   final String reciter;
   final bool isDarkMode;
+  final String languageCode;
 
   SettingsEntity({
     required this.textFontSize,
@@ -11,6 +12,7 @@ class SettingsEntity {
     required this.mushafMode,
     required this.reciter,
     required this.isDarkMode,
+    required this.languageCode,
   });
 
   SettingsEntity copyWith({
@@ -19,6 +21,7 @@ class SettingsEntity {
     String? mushafMode,
     String? reciter,
     bool? isDarkMode,
+    String? languageCode,
   }) {
     return SettingsEntity(
       textFontSize: textFontSize ?? this.textFontSize,
@@ -26,6 +29,7 @@ class SettingsEntity {
       mushafMode: mushafMode ?? this.mushafMode,
       reciter: reciter ?? this.reciter,
       isDarkMode: isDarkMode ?? this.isDarkMode,
+      languageCode: languageCode ?? this.languageCode,
     );
   }
 }

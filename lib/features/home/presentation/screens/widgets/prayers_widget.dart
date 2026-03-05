@@ -114,6 +114,56 @@ class PrayersWidget extends StatelessWidget {
             ),
           );
         }
+        if (state is GetTimingByCityFailure) {
+          return Padding(
+            padding: REdgeInsets.all(18),
+            child: Container(
+              width: double.infinity,
+              padding: REdgeInsets.symmetric(horizontal: 20, vertical: 24),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.errorContainer,
+                borderRadius: BorderRadius.circular(17.r),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.wifi_off_rounded,
+                    color: Theme.of(context).colorScheme.error,
+                    size: 32.r,
+                  ),
+                  Gap(12.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppStrings.noInternetTitle,
+                          style: TextStyle(
+                            fontFamily: 'Main',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                        Gap(4.h),
+                        Text(
+                          AppStrings.noInternetBody,
+                          style: TextStyle(
+                            fontFamily: 'Main',
+                            fontSize: 12.sp,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onErrorContainer,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
         return const SizedBox.shrink();
       },
     );

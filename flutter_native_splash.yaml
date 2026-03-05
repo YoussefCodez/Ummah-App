@@ -1,0 +1,20 @@
+flutter_native_splash:
+
+  # ── Light Mode ──────────────────────────────────────────────
+  color: "#ffffff"                     # White background — logo is blue calligraphy
+  image: assets/images/UmmahLogoBigSize.png
+  fullscreen: true
+
+  # ── Dark Mode ───────────────────────────────────────────────
+  color_dark: "#0F172A"                # Dark navy background
+  image_dark: assets/images/UmmahLogoBigSize.png
+
+  # ── Android 12+ (Splash API) ────────────────────────────────
+  android_12:
+    color: "#ffffff"
+    image: assets/images/ummahLogo.png
+    icon_background_color: "#ffffff"
+
+    color_dark: "#0F172A"
+    image_dark: assets/images/ummahLogo.png
+    icon_background_color_dark: "#0F172A"

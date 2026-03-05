@@ -7,6 +7,7 @@ import 'package:ummah/core/theme/app_theme.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_state.dart';
 import 'package:ummah/features/surah_details/presentation/cubit/saved_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ummah/main_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
               themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
               scrollBehavior: const ScrollBehavior().copyWith(
                 overscroll: false,
               ),

@@ -63,4 +63,14 @@ class SettingsCubit extends Cubit<SettingsState> {
       _updateAndSave(newSettings);
     }
   }
+
+  void changeLanguageCode(String languageCode) {
+    if (state is SettingsLoaded) {
+      final currentState = state as SettingsLoaded;
+      final newSettings = currentState.settings.copyWith(
+        languageCode: languageCode,
+      );
+      _updateAndSave(newSettings);
+    }
+  }
 }

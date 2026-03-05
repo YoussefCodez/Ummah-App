@@ -83,7 +83,7 @@ class DuaCategoryCard extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'Main',
                     fontSize: 10.sp,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

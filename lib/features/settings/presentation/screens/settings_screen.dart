@@ -10,6 +10,7 @@ import 'package:ummah/core/constants/app_strings.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_state.dart';
 import 'package:ummah/features/settings/presentation/screens/widgets/settings_card.dart';
 import 'package:ummah/features/settings/presentation/screens/widgets/settings_section_header.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -49,6 +50,28 @@ class SettingsScreen extends StatelessWidget {
             return ListView(
               padding: EdgeInsets.all(20.r),
               children: [
+                SettingsSectionHeader(title: AppStrings.language),
+                Gap(10.h),
+                SettingsCard(
+                  child: SwitchListTile(
+                    title: Text(
+                      'English Language',
+                      style: TextStyle(fontFamily: 'Main', fontSize: 14.sp),
+                    ),
+                    value: settings.languageCode == 'en',
+                    activeThumbColor: theme.colorScheme.primary,
+                    onChanged: (isEn) async {
+                      final newLang = isEn ? 'en' : 'ar';
+                      await context.setLocale(Locale(newLang));
+                      if (context.mounted) {
+                        context.read<SettingsCubit>().changeLanguageCode(
+                          newLang,
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Gap(20.h),
                 SettingsSectionHeader(title: AppStrings.textOptions),
                 Gap(10.h),
                 SettingsCard(
@@ -149,74 +172,80 @@ class SettingsScreen extends StatelessWidget {
                 SettingsSectionHeader(title: AppStrings.mushafDisplayMode),
                 Gap(10.h),
                 SettingsCard(
-                  child: Column(
-                    children: [
-                      RadioListTile<String>(
-                        title: Text(
-                          AppStrings.pagesMushaf,
-                          style: TextStyle(fontFamily: 'Main', fontSize: 14.sp),
+                  child: RadioGroup<String>(
+                    groupValue: settings.mushafMode,
+                    onChanged: (value) {
+                      if (value != null) {
+                        context.read<SettingsCubit>().changeMushafMode(
+                          value == 'mushaf',
+                        );
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        RadioListTile<String>(
+                          title: Text(
+                            AppStrings.pagesMushaf,
+                            style: TextStyle(
+                              fontFamily: 'Main',
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                          value: 'mushaf',
+                          activeColor: theme.colorScheme.primary,
                         ),
-                        value: 'mushaf',
-                        groupValue: settings.mushafMode,
-                        activeColor: theme.colorScheme.primary,
-                        onChanged: (value) {
-                          if (value != null) {
-                            context.read<SettingsCubit>().changeMushafMode(
-                              true,
-                            );
-                          }
-                        },
-                      ),
-                      RadioListTile<String>(
-                        title: Text(
-                          AppStrings.ayahs,
-                          style: TextStyle(fontFamily: 'Main', fontSize: 14.sp),
+                        RadioListTile<String>(
+                          title: Text(
+                            AppStrings.ayahs,
+                            style: TextStyle(
+                              fontFamily: 'Main',
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                          value: 'ayah',
+                          activeColor: theme.colorScheme.primary,
                         ),
-                        value: 'ayah',
-                        groupValue: settings.mushafMode,
-                        activeColor: theme.colorScheme.primary,
-                        onChanged: (value) {
-                          if (value != null) {
-                            context.read<SettingsCubit>().changeMushafMode(
-                              false,
-                            );
-                          }
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Gap(20.h),
                 SettingsSectionHeader(title: AppStrings.readers),
                 Gap(10.h),
                 SettingsCard(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: Reciters.displayNames.length,
-                    itemBuilder: (context, index) {
-                      final entry = Reciters.displayNames.entries
-                          .toList()[index];
-                      final reciterId = entry.key;
-                      final reciterName = entry.value;
-
-                      return RadioListTile<String>(
-                        title: Text(
-                          reciterName,
-                          style: TextStyle(fontFamily: 'Main', fontSize: 14.sp),
-                        ),
-                        value: reciterId,
-                        groupValue: settings.reciter,
-                        activeColor: theme.colorScheme.primary,
-                        onChanged: (value) {
-                          if (value != null) {
-                            context.read<SettingsCubit>().changeReciter(value);
-                          }
-                        },
-                      );
+                  child: RadioGroup<String>(
+                    groupValue: settings.reciter,
+                    onChanged: (value) {
+                      if (value != null) {
+                        context.read<SettingsCubit>().changeReciter(value);
+                      }
                     },
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: Reciters.displayNames.length,
+                      itemBuilder: (context, index) {
+                        final entry = Reciters.displayNames.entries
+                            .toList()[index];
+                        final reciterId = entry.key;
+                        final reciterName = entry.value;
+
+                        return RadioListTile<String>(
+                          title: Text(
+                            reciterName,
+                            style: TextStyle(
+                              fontFamily: 'Main',
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                          value: reciterId,
+                          activeColor: theme.colorScheme.primary,
+                        );
+                      },
+                    ),
                   ),
                 ),
+                Gap(100.h),
               ],
             );
           }

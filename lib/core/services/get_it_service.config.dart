@@ -111,6 +111,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i712.GetTimingByCityCubit(
         gh<_i189.GetTimingByCityUsecase>(),
         gh<_i459.NotificationService>(),
+        gh<_i161.InternetConnection>(),
       ),
     );
     return this;

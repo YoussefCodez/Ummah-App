@@ -7,9 +7,9 @@
 <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 <uses-permission android:name="android.permission.VIBRATE"/>
     <application
-        android:label="ummah"
+        android:label="Ummah"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
             <intent-filter>
