@@ -15,7 +15,7 @@ class NotificationServiceImpl implements NotificationService {
     tz.initializeTimeZones();
     const InitializationSettings initializationSettings =
         InitializationSettings(
-          android: AndroidInitializationSettings('ummah_logo'),
+          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
           iOS: DarwinInitializationSettings(
             requestAlertPermission: false,
             requestBadgePermission: false,
