@@ -15,7 +15,7 @@ class NotificationServiceImpl implements NotificationService {
     tz.initializeTimeZones();
     const InitializationSettings initializationSettings =
         InitializationSettings(
-          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+          android: AndroidInitializationSettings('@mipmap/launcher_icon'),
           iOS: DarwinInitializationSettings(
             requestAlertPermission: false,
             requestBadgePermission: false,
@@ -60,6 +60,7 @@ class NotificationServiceImpl implements NotificationService {
         channelDescription: 'Prayer notifications',
         importance: Importance.max,
         priority: Priority.high,
+        icon: '@mipmap/launcher_icon',
       ),
       iOS: DarwinNotificationDetails(
         presentAlert: true,

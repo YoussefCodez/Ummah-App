@@ -20,34 +20,41 @@ void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await EasyLocalization.ensureInitialized();
-  await Hive.initFlutter();
-  configureDependencies();
+    await EasyLocalization.ensureInitialized();
+    await Hive.initFlutter();
+    configureDependencies();
 
-  await getIt<NotificationService>().init();
-  getIt<NotificationService>().requestPermissions();
-  getIt<NotificationService>().firebaseMessaging();
+    await getIt<NotificationService>().init();
+    getIt<NotificationService>().requestPermissions();
+    getIt<NotificationService>().firebaseMessaging();
 
-  var hive = getIt<HiveService>();
-  await hive.init();
+    var hive = getIt<HiveService>();
+    await hive.init();
 
-  FirebaseMessaging.instance.subscribeToTopic('all');
+    FirebaseMessaging.instance.subscribeToTopic('all');
 
-  String languageCode =
-      hive.getSetting<String>('languageCode', defaultValue: 'en') ?? 'en';
+    String languageCode =
+        hive.getSetting<String>('languageCode', defaultValue: 'en') ?? 'en';
 
-  runApp(
-    EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('ar')],
-      path: 'assets/translations',
-      fallbackLocale: const Locale('en'),
-      startLocale: Locale(languageCode),
-      child: const MyApp(),
-    ),
-  );
-
-  FlutterNativeSplash.remove();
+    runApp(
+      EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('ar')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en'),
+        startLocale: Locale(languageCode),
+        child: const MyApp(),
+      ),
+    );
+  } catch (e) {
+    debugPrint('Error during initialization: $e');
+    runApp(const MyApp());
+  } finally {
+    FlutterNativeSplash.remove();
+  }
 }
