@@ -21,23 +21,26 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-    await EasyLocalization.ensureInitialized();
     await Hive.initFlutter();
+    await EasyLocalization.ensureInitialized();
+    
     configureDependencies();
-
-    await getIt<NotificationService>().init();
-    getIt<NotificationService>().requestPermissions();
-    getIt<NotificationService>().firebaseMessaging();
-
-    var hive = getIt<HiveService>();
+    final hive = getIt<HiveService>();
     await hive.init();
+    
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+      FirebaseMessaging.instance.subscribeToTopic('all');
 
-    FirebaseMessaging.instance.subscribeToTopic('all');
+      await getIt<NotificationService>().init();
+      getIt<NotificationService>().requestPermissions();
+      getIt<NotificationService>().firebaseMessaging();
+    } catch (e) {
+      debugPrint('Optional systems failed (Firebase/Notifications): $e');
+    }
 
     String languageCode =
         hive.getSetting<String>('languageCode', defaultValue: 'en') ?? 'en';
@@ -52,8 +55,8 @@ void main() async {
       ),
     );
   } catch (e) {
-    debugPrint('Error during initialization: $e');
-    runApp(const MyApp());
+    debugPrint('CRITICAL INITIALIZATION ERROR: $e');
+    runApp(const MaterialApp(home: Scaffold(body: Center(child: Text("Technical Error. Please restart the app.")))));
   } finally {
     FlutterNativeSplash.remove();
   }
