@@ -61,6 +61,9 @@ class NotificationServiceImpl implements NotificationService {
         importance: Importance.max,
         priority: Priority.high,
         icon: '@mipmap/launcher_icon',
+        fullScreenIntent: true,
+        category: .alarm,
+        visibility: .public
       ),
       iOS: DarwinNotificationDetails(
         presentAlert: true,
