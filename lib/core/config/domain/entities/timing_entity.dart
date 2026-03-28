@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:ummah/features/home/presentation/cubit/salwat_strategy.dart';
+import 'package:ummah/core/config/domain/entities/salwat_strategy.dart';
 
 class TimingEntity {
   final String fajr;
@@ -11,6 +11,8 @@ class TimingEntity {
   final String gregorianDate;
   final String gregorianMonth;
   final String gregorianYear;
+  final String weekDayEn;
+  final String weekDayAr;
   final String hijriDate;
   final String hijriMonth;
   final String hijriMonthAr;
@@ -27,6 +29,8 @@ class TimingEntity {
     required this.gregorianDate,
     required this.gregorianMonth,
     required this.gregorianYear,
+    required this.weekDayEn,
+    required this.weekDayAr,
     required this.hijriDate,
     required this.hijriMonth,
     required this.hijriMonthAr,

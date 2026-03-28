@@ -17,16 +17,10 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:quran_with_tafsir/quran_with_tafsir.dart' as _i934;
 import 'package:quran_with_tafsir/services/quran_service.dart' as _i4;
 
-import '../../features/home/data/data_sources/home_local_data_source.dart'
-    as _i34;
-import '../../features/home/data/repositories/get_timing_by_city_impl.dart'
-    as _i551;
-import '../../features/home/domain/repositories/get_timing_by_city.dart'
-    as _i85;
-import '../../features/home/domain/use_cases/get_timing_by_city_usecase.dart'
-    as _i189;
 import '../../features/home/presentation/cubit/get_timing_by_city_cubit.dart'
     as _i712;
+import '../../features/prayers/presentation/cubit/get_prayers_cubit.dart'
+    as _i905;
 import '../../features/quran/presentation/cubit/quran_cubit.dart' as _i431;
 import '../../features/settings/data/data_sources/settings_local_data_source.dart'
     as _i85;
@@ -40,6 +34,10 @@ import '../../features/settings/presentation/cubit/settings_cubit.dart'
     as _i792;
 import '../../features/surah_details/presentation/cubit/quran_tafsir_cubit.dart'
     as _i205;
+import '../config/data/data_sources/prayer_local_data_source.dart' as _i689;
+import '../config/data/repositories/get_timing_by_city_impl.dart' as _i35;
+import '../config/domain/repositories/get_timing_by_city.dart' as _i210;
+import '../config/domain/use_cases/get_timing_by_city_usecase.dart' as _i802;
 import '../config/location_cubit.dart' as _i1002;
 import '../network/network_info.dart' as _i932;
 import 'api_client_service.dart' as _i281;
@@ -70,8 +68,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i459.NotificationService>(
       () => _i354.NotificationServiceImpl(),
     );
-    gh.lazySingleton<_i34.HomeLocalDataSource>(
-      () => _i34.HomeLocalDataSourceImpl(gh<_i0.HiveService>()),
+    gh.lazySingleton<_i689.PrayerLocalDataSource>(
+      () => _i689.PrayerLocalDataSourceImpl(gh<_i0.HiveService>()),
     );
     gh.lazySingleton<_i281.ApiClientService>(
       () => registerModule.getApiClientService(gh<_i361.Dio>()),
@@ -94,22 +92,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1002.LocationCubit>(
       () => _i1002.LocationCubit(gh<_i126.LocationService>()),
     );
-    gh.factory<_i792.SettingsCubit>(
-      () => _i792.SettingsCubit(gh<_i674.SettingsRepository>()),
-    );
-    gh.lazySingleton<_i85.GetTimingByCity>(
-      () => _i551.GetTimingByCityImpl(
+    gh.lazySingleton<_i210.GetTimingByCity>(
+      () => _i35.GetTimingByCityImpl(
         gh<_i281.ApiClientService>(),
-        gh<_i34.HomeLocalDataSource>(),
+        gh<_i689.PrayerLocalDataSource>(),
         gh<_i932.NetworkInfo>(),
       ),
     );
-    gh.lazySingleton<_i189.GetTimingByCityUsecase>(
-      () => _i189.GetTimingByCityUsecase(gh<_i85.GetTimingByCity>()),
+    gh.lazySingleton<_i802.GetTimingByCityUsecase>(
+      () => _i802.GetTimingByCityUsecase(gh<_i210.GetTimingByCity>()),
+    );
+    gh.factory<_i792.SettingsCubit>(
+      () => _i792.SettingsCubit(gh<_i674.SettingsRepository>()),
+    );
+    gh.factory<_i905.GetPrayersCubit>(
+      () => _i905.GetPrayersCubit(
+        gh<_i802.GetTimingByCityUsecase>(),
+        gh<_i0.HiveService>(),
+      ),
     );
     gh.lazySingleton<_i712.GetTimingByCityCubit>(
       () => _i712.GetTimingByCityCubit(
-        gh<_i189.GetTimingByCityUsecase>(),
+        gh<_i802.GetTimingByCityUsecase>(),
         gh<_i459.NotificationService>(),
         gh<_i161.InternetConnection>(),
       ),

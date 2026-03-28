@@ -27,6 +27,7 @@ class SalahWidget extends StatelessWidget {
             : Colors.transparent,
         borderRadius: BorderRadius.circular(12.r),
       ),
+      margin: REdgeInsets.symmetric(horizontal: 4),
       padding: REdgeInsets.symmetric(vertical: 8),
       child: Column(
         children: [

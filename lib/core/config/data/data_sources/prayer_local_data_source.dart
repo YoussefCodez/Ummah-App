@@ -2,18 +2,18 @@ import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
 import 'package:ummah/core/services/hive_service.dart';
-import 'package:ummah/features/home/data/models/timing_model.dart';
+import 'package:ummah/core/config/data/models/timing_model.dart';
 
-abstract class HomeLocalDataSource {
+abstract class PrayerLocalDataSource {
   Future<void> saveTimings(TimingModel timingModel, String city);
   TimingModel? getTimings(String city);
 }
 
-@LazySingleton(as: HomeLocalDataSource)
-class HomeLocalDataSourceImpl implements HomeLocalDataSource {
+@LazySingleton(as: PrayerLocalDataSource)
+class PrayerLocalDataSourceImpl implements PrayerLocalDataSource {
   final HiveService _hiveService;
 
-  HomeLocalDataSourceImpl(this._hiveService);
+  PrayerLocalDataSourceImpl(this._hiveService);
 
   @override
   Future<void> saveTimings(TimingModel timingModel, String city) async {

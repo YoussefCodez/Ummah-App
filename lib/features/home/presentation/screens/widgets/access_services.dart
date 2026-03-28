@@ -7,6 +7,7 @@ import 'package:ummah/features/dua/presentation/screens/dua_screen.dart';
 import 'package:ummah/core/constants/app_strings.dart';
 import 'package:ummah/features/home/presentation/screens/widgets/service_widget.dart';
 import 'package:ummah/features/tasbih/presentation/screens/tasbih_screen.dart';
+import 'package:ummah/features/prayers/presentation/screens/prayers_screen.dart';
 
 class AccessServices extends StatefulWidget {
   const AccessServices({super.key, required this.controller});
@@ -89,7 +90,15 @@ class _AccessServicesState extends State<AccessServices> {
                   );
                 },
               ),
-              const Spacer(),
+              Service(
+                icon: "assets/svgs/prayer.svg",
+                text: AppStrings.prayers,
+                onTap: () {
+                  Navigator.of(context, rootNavigator: true).push(
+                    MaterialPageRoute(builder: (context) => PrayersScreen()),
+                  );
+                },
+              ),
             ],
           ),
         ],

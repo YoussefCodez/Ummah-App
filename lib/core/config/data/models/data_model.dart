@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'timings_model.dart';
 import 'date_model.dart';
 import 'meta_model.dart';
-import 'package:ummah/features/home/domain/entities/timing_entity.dart';
+import 'package:ummah/core/config/domain/entities/timing_entity.dart';
 
 part 'data_model.g.dart';
 
@@ -35,8 +35,10 @@ class Data {
       asr: clean(timings?.asr),
       maghrib: clean(timings?.maghrib),
       isha: clean(timings?.isha),
+      weekDayEn: date?.gregorian?.weekday?.en ?? '',
+      weekDayAr: date?.hijri?.weekday?.ar ?? '',
       gregorianDate: date?.readable ?? '',
-      gregorianMonth: date?.gregorian?.month.toString() ?? '',
+      gregorianMonth: date?.gregorian?.month?.en ?? '',
       gregorianYear: date?.gregorian?.year ?? '',
       hijriDate:
           '${date?.hijri?.day} ${date?.hijri?.month?.ar} ${date?.hijri?.year}',

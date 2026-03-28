@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -161,7 +162,8 @@ class _MushafViewState extends State<MushafView> {
         ),
         body: PageView.builder(
           controller: _pageController,
-          reverse: true,
+          reverse: context.locale.languageCode == 'ar' ? false : true,
+          scrollDirection: .horizontal,
           itemCount: 604,
           itemBuilder: (context, index) {
             final pageNumber = index + 1;

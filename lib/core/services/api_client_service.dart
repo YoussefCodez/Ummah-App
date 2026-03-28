@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ummah/core/constants/app_const.dart';
 import 'package:ummah/core/constants/app_endpoints.dart';
-import 'package:ummah/features/home/data/models/timing_model.dart';
+import 'package:ummah/core/config/data/models/timing_model.dart';
 
 part 'api_client_service.g.dart';
 

@@ -121,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
             screenTransitionAnimation: ScreenTransitionAnimationSettings(
               // Screen transition animation on change of selected tab.
               animateTabTransition: true,
-              duration: Duration(milliseconds: 250),
+              duration: Duration(milliseconds: 150),
               screenTransitionAnimationType:
                   ScreenTransitionAnimationType.fadeIn,
             ),

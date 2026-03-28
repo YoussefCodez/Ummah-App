@@ -67,6 +67,7 @@ abstract class AppStrings {
   static String get vibrationLabel => "vibrationLabel".tr();
   static String get classifiedDuas => "classifiedDuas".tr();
   static String get duas => "duas".tr();
+  static String get prayers => "prayers".tr();
 
   // Prayer Names (English)
   static String get fajrEn => "fajrEn".tr();

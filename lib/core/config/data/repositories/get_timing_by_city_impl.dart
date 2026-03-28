@@ -4,15 +4,15 @@ import 'package:injectable/injectable.dart';
 import 'package:ummah/core/errors/error_handler.dart';
 import 'package:ummah/core/network/network_info.dart';
 import 'package:ummah/core/services/api_client_service.dart';
-import 'package:ummah/features/home/data/models/timing_model.dart';
-import 'package:ummah/features/home/domain/entities/timing_entity.dart';
-import 'package:ummah/features/home/domain/repositories/get_timing_by_city.dart';
-import 'package:ummah/features/home/data/data_sources/home_local_data_source.dart';
+import 'package:ummah/core/config/data/data_sources/prayer_local_data_source.dart';
+import 'package:ummah/core/config/data/models/timing_model.dart';
+import 'package:ummah/core/config/domain/entities/timing_entity.dart';
+import 'package:ummah/core/config/domain/repositories/get_timing_by_city.dart';
 
 @LazySingleton(as: GetTimingByCity)
 class GetTimingByCityImpl implements GetTimingByCity {
   final ApiClientService _apiClientService;
-  final HomeLocalDataSource _homeLocalDataSource;
+  final PrayerLocalDataSource _homeLocalDataSource;
   final NetworkInfo _networkInfo;
 
   GetTimingByCityImpl(
@@ -64,6 +64,20 @@ class GetTimingByCityImpl implements GetTimingByCity {
       } else {
         return const Left("No internet connection and no cached data found.");
       }
+    } catch (e) {
+      return Left(ErrorHandler.handle(e));
+    }
+  }
+  
+  @override
+  Future<Either<String, List<TimingEntity>>> getMonthTimings({required String city, required String country}) async {
+    try {
+      final TimingModel? cached = _homeLocalDataSource.getTimings(city);
+      if (cached != null && cached.data != null) {
+        final List<TimingEntity> allMonth = cached.data!.map((e) => e.toEntity()).toList();
+        return Right(allMonth);
+      }
+      return Left("Try Again Later");
     } catch (e) {
       return Left(ErrorHandler.handle(e));
     }

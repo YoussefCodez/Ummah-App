@@ -3,12 +3,12 @@ import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:meta/meta.dart';
-import 'package:ummah/features/home/domain/entities/timing_entity.dart';
-import 'package:ummah/features/home/domain/use_cases/get_timing_by_city_usecase.dart';
-import 'package:ummah/features/home/presentation/cubit/salwat_strategy.dart';
+import 'package:ummah/core/config/domain/entities/timing_entity.dart';
+import 'package:ummah/core/config/domain/use_cases/get_timing_by_city_usecase.dart';
+import 'package:ummah/core/config/domain/entities/salwat_strategy.dart';
 import 'package:ummah/core/services/notification_service.dart';
 import 'package:ummah/core/constants/app_strings.dart';
-import 'package:ummah/features/home/domain/entities/timing_date_time.dart';
+import 'package:ummah/core/config/domain/entities/timing_date_time.dart';
 
 part 'get_timing_by_city_state.dart';
 

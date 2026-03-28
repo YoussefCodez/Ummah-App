@@ -1,4 +1,4 @@
-import 'package:ummah/features/home/domain/entities/timing_entity.dart';
+import 'package:ummah/core/config/domain/entities/timing_entity.dart';
 
 extension TimingDateTime on TimingEntity {
   DateTime _parseTime(String time) {

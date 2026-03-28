@@ -78,5 +78,6 @@
     "sajda": "Sajda",
     "language": "Language",
     "noInternetTitle": "No Internet Connection",
-    "noInternetBody": "Prayer times will appear automatically once you're connected."
+    "noInternetBody": "Prayer times will appear automatically once you're connected.",
+    "prayers": "Prayers"
 }
