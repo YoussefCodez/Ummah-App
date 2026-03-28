@@ -38,7 +38,6 @@ class TimingEntity {
   List<SalwatStrategy> getSalwatStrategies() {
     return [
       Fajr(timeStr: fajr),
-      Shrook(timeStr: sunrise),
       Dhuhr(timeStr: dhuhr),
       Asr(timeStr: asr),
       Maghrib(timeStr: maghrib),
@@ -47,8 +46,9 @@ class TimingEntity {
   }
 
   DateTime _getPrayerDateTime(String timeStr) {
+    final cleanTimeStr = timeStr.replaceAll(RegExp(r'\s*\(.*\)'), '').trim();
     final now = DateTime.now();
-    final parts = timeStr.split(':');
+    final parts = cleanTimeStr.split(':');
     final hour = int.parse(parts[0]);
     final minute = int.parse(parts[1]);
     return DateTime(now.year, now.month, now.day, hour, minute);
@@ -56,7 +56,8 @@ class TimingEntity {
 
   String convertTo12Hour(String time24) {
     try {
-      final time = DateFormat("HH:mm").parse(time24);
+      final cleanTime24 = time24.replaceAll(RegExp(r'\s*\(.*\)'), '').trim();
+      final time = DateFormat("HH:mm").parse(cleanTime24);
       return DateFormat('h:mm').format(time);
     } catch (e) {
       return time24;
@@ -65,7 +66,8 @@ class TimingEntity {
 
   String convertTo12HourWithPeriod(String time24) {
     try {
-      final time = DateFormat("HH:mm").parse(time24);
+      final cleanTime24 = time24.replaceAll(RegExp(r'\s*\(.*\)'), '').trim();
+      final time = DateFormat("HH:mm").parse(cleanTime24);
       return DateFormat('h:mm a').format(time);
     } catch (e) {
       return time24;

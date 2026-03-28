@@ -22,15 +22,19 @@ class _ApiClientService implements ApiClientService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<TimingModel> getTimingsByCity({
+  Future<TimingModel> getCalendarByCity({
     required String city,
     required String country,
+    required int month,
+    required int year,
     int method = 5,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'city': city,
       r'country': country,
+      r'month': month,
+      r'year': year,
       r'method': method,
     };
     final _headers = <String, dynamic>{};
@@ -39,7 +43,7 @@ class _ApiClientService implements ApiClientService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/timingsByCity',
+            '/calendarByCity',
             queryParameters: queryParameters,
             data: _data,
           )

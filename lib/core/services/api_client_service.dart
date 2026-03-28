@@ -10,10 +10,12 @@ part 'api_client_service.g.dart';
 abstract class ApiClientService {
   factory ApiClientService(Dio dio, {String? baseUrl}) = _ApiClientService;
 
-  @GET(AppEndpoints.timingsByCity)
-  Future<TimingModel> getTimingsByCity({
+  @GET(AppEndpoints.calendarByCity)
+  Future<TimingModel> getCalendarByCity({
     @Query("city") required String city,
     @Query("country") required String country,
+    @Query("month") required int month,
+    @Query("year") required int year,
     @Query("method") int method = 5,
   });
 }

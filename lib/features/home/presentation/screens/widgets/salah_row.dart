@@ -15,7 +15,7 @@ class SalahRow extends StatelessWidget {
         Container(
           width: double.infinity,
           color: Theme.of(context).colorScheme.onPrimaryFixed,
-          padding: REdgeInsets.all(16),
+          padding: REdgeInsets.symmetric(horizontal: 5, vertical: 20),
           child: BlocBuilder<GetTimingByCityCubit, GetTimingByCityState>(
             buildWhen: (previous, current) {
               return previous != current;

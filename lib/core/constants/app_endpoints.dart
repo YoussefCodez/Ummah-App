@@ -1,3 +1,3 @@
 abstract class AppEndpoints {
-  static const String timingsByCity = "/timingsByCity";
+  static const String calendarByCity = "/calendarByCity";
 }

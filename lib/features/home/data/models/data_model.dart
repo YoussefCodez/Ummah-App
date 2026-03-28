@@ -26,13 +26,15 @@ class Data {
   Map<String, dynamic> toJson() => _$DataToJson(this);
 
   TimingEntity toEntity() {
+    String clean(String? time) =>
+        time?.replaceAll(RegExp(r'\s*\(.*\)'), '').trim() ?? '';
     return TimingEntity(
-      fajr: timings?.fajr ?? '',
-      sunrise: timings?.sunrise ?? '',
-      dhuhr: timings?.dhuhr ?? '',
-      asr: timings?.asr ?? '',
-      maghrib: timings?.maghrib ?? '',
-      isha: timings?.isha ?? '',
+      fajr: clean(timings?.fajr),
+      sunrise: clean(timings?.sunrise),
+      dhuhr: clean(timings?.dhuhr),
+      asr: clean(timings?.asr),
+      maghrib: clean(timings?.maghrib),
+      isha: clean(timings?.isha),
       gregorianDate: date?.readable ?? '',
       gregorianMonth: date?.gregorian?.month.toString() ?? '',
       gregorianYear: date?.gregorian?.year ?? '',

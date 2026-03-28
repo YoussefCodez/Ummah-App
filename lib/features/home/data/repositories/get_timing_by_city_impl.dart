@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:intl/intl.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ummah/core/errors/error_handler.dart';
 import 'package:ummah/core/network/network_info.dart';
@@ -26,23 +27,40 @@ class GetTimingByCityImpl implements GetTimingByCity {
     required String country,
   }) async {
     try {
-      // 1. Check Cache First
-      final cachedTimings = _homeLocalDataSource.getTimings(city);
-      if (cachedTimings != null) {
-        return Right(cachedTimings.toEntity());
+      final DateTime now = DateTime.now();
+      final String todayDate = DateFormat('dd-MM-yyyy').format(now);
+
+      // 1. Check Cache First (returns the whole month)
+      final TimingModel? cachedMonthTimings = _homeLocalDataSource.getTimings(city);
+
+      if (cachedMonthTimings != null && cachedMonthTimings.data != null) {
+        final todayData = cachedMonthTimings.data!.firstWhere(
+          (element) => element.date?.gregorian?.date == todayDate,
+          orElse: () => cachedMonthTimings.data!.first, // Fallback if needed
+        );
+        return Right(todayData.toEntity());
       }
 
       // 2. If no cache, check Internet Connection
       final isConnected = await _networkInfo.isConnected;
 
       if (isConnected) {
-        final TimingModel timingModel = await _apiClientService
-            .getTimingsByCity(city: city, country: country);
+        final TimingModel monthTimings = await _apiClientService.getCalendarByCity(
+          city: city,
+          country: country,
+          month: now.month,
+          year: now.year,
+        );
 
-        // 3. Save newly fetched data to Cache
-        await _homeLocalDataSource.saveTimings(timingModel, city);
+        // 3. Save newly fetched month data to Cache
+        await _homeLocalDataSource.saveTimings(monthTimings, city);
 
-        return Right(timingModel.toEntity());
+        final todayData = monthTimings.data!.firstWhere(
+          (element) => element.date?.gregorian?.date == todayDate,
+          orElse: () => monthTimings.data!.first,
+        );
+
+        return Right(todayData.toEntity());
       } else {
         return const Left("No internet connection and no cached data found.");
       }

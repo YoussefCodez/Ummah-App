@@ -223,13 +223,15 @@ class SettingsScreen extends StatelessWidget {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: Reciters.displayNames.length,
+                      itemCount: context.locale.languageCode == 'ar'
+                          ? Reciters.displayNamesAr.length
+                          : Reciters.displayNames.length,
                       itemBuilder: (context, index) {
-                        final entry = Reciters.displayNames.entries
-                            .toList()[index];
+                        final entry = context.locale.languageCode == 'ar'
+                            ? Reciters.displayNamesAr.entries.toList()[index]
+                            : Reciters.displayNames.entries.toList()[index];
                         final reciterId = entry.key;
                         final reciterName = entry.value;
-
                         return RadioListTile<String>(
                           title: Text(
                             reciterName,

@@ -9,9 +9,9 @@ part of 'timing_model.dart';
 TimingModel _$TimingModelFromJson(Map<String, dynamic> json) => TimingModel(
   code: (json['code'] as num?)?.toInt(),
   status: json['status'] as String?,
-  data: json['data'] == null
-      ? null
-      : Data.fromJson(json['data'] as Map<String, dynamic>),
+  data: (json['data'] as List<dynamic>?)
+      ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$TimingModelToJson(TimingModel instance) =>

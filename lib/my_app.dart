@@ -37,6 +37,17 @@ class MyApp extends StatelessWidget {
               scrollBehavior: const ScrollBehavior().copyWith(
                 overscroll: false,
               ),
+              builder: (context, child) {
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaler: MediaQuery.of(context).textScaler.clamp(
+                          minScaleFactor: 1.0,
+                          maxScaleFactor: 1.0,
+                        ),
+                  ),
+                  child: child!,
+                );
+              },
               home: const MainScreen(),
             );
           },
