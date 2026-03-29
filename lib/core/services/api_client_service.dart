@@ -18,4 +18,13 @@ abstract class ApiClientService {
     @Query("year") required int year,
     @Query("method") int method = 5,
   });
+
+  @GET("/calendar")
+  Future<TimingModel> getCalendarByCoordinates({
+    @Query("latitude") required double latitude,
+    @Query("longitude") required double longitude,
+    @Query("month") required int month,
+    @Query("year") required int year,
+    @Query("method") int method = 5,
+  });
 }

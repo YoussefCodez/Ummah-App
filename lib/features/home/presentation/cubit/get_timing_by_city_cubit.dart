@@ -24,6 +24,8 @@ class GetTimingByCityCubit extends Cubit<GetTimingByCityState> {
 
   String? _lastCity;
   String? _lastCountry;
+  double? _lastLat;
+  double? _lastLong;
 
   GetTimingByCityCubit(
     this.getTimingByCityUsecase,
@@ -34,15 +36,21 @@ class GetTimingByCityCubit extends Cubit<GetTimingByCityState> {
   Future<void> getTimingByCity({
     required String city,
     required String country,
+    double? latitude,
+    double? longitude,
   }) async {
     _lastCity = city;
     _lastCountry = country;
+    _lastLat = latitude;
+    _lastLong = longitude;
 
     emit(GetTimingByCityLoading());
 
     final result = await getTimingByCityUsecase.call(
       city: city,
       country: country,
+      latitude: latitude,
+      longitude: longitude,
     );
 
     result.fold(
@@ -103,7 +111,12 @@ class GetTimingByCityCubit extends Cubit<GetTimingByCityState> {
           _lastCountry != null) {
         _connectivitySubscription?.cancel();
         _connectivitySubscription = null;
-        getTimingByCity(city: _lastCity!, country: _lastCountry!);
+        getTimingByCity(
+          city: _lastCity!,
+          country: _lastCountry!,
+          latitude: _lastLat,
+          longitude: _lastLong,
+        );
       }
     });
   }
@@ -136,7 +149,12 @@ class GetTimingByCityCubit extends Cubit<GetTimingByCityState> {
 
     _midnightTimer = Timer(durationUntilMidnight, () {
       if (_lastCity != null && _lastCountry != null) {
-        getTimingByCity(city: _lastCity!, country: _lastCountry!);
+        getTimingByCity(
+          city: _lastCity!,
+          country: _lastCountry!,
+          latitude: _lastLat,
+          longitude: _lastLong,
+        );
       }
     });
   }

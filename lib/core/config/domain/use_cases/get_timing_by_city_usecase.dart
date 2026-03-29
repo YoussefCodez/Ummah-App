@@ -12,14 +12,28 @@ class GetTimingByCityUsecase {
   Future<Either<String, TimingEntity>> call({
     required String city,
     required String country,
+    double? latitude,
+    double? longitude,
   }) async {
-    return await _getTimingByCity.getTimingByCity(city: city, country: country);
+    return await _getTimingByCity.getTimingByCity(
+      city: city,
+      country: country,
+      latitude: latitude,
+      longitude: longitude,
+    );
   }
 
   Future<Either<String, List<TimingEntity>>> getMonthTimings({
     required String city,
     required String country,
+    double? latitude,
+    double? longitude,
   }) async {
-    return await _getTimingByCity.getMonthTimings(city: city, country: country);
+    return await _getTimingByCity.getMonthTimings(
+      city: city,
+      country: country,
+      latitude: latitude,
+      longitude: longitude,
+    );
   }
 }

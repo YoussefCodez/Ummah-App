@@ -35,15 +35,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Check if location is already arrived (from singleton cache)
     if (_locationCubit.state is LocationSuccess) {
-      _triggerTimingFetch((_locationCubit.state as LocationSuccess).place);
+      _triggerTimingFetch(_locationCubit.state as LocationSuccess);
     }
   }
 
-  void _triggerTimingFetch(String place) {
-    final parts = place.split(", ");
+  void _triggerTimingFetch(LocationSuccess location) {
+    final parts = location.place.split(", ");
     final city = parts.isNotEmpty ? parts[0] : "Cairo";
     final country = parts.length > 1 ? parts[1] : "Egypt";
-    _timingCubit.getTimingByCity(city: city, country: country);
+    _timingCubit.getTimingByCity(
+      city: city, 
+      country: country,
+      latitude: location.latitude,
+      longitude: location.longitude,
+    );
   }
 
   @override
@@ -56,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocListener<LocationCubit, LocationState>(
         listener: (context, state) {
           if (state is LocationSuccess) {
-            _triggerTimingFetch(state.place);
+            _triggerTimingFetch(state);
           }
         },
         child: Scaffold(

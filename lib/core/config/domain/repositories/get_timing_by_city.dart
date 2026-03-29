@@ -5,9 +5,13 @@ abstract interface class GetTimingByCity {
   Future<Either<String, TimingEntity>> getTimingByCity({
     required String city,
     required String country,
+    double? latitude,
+    double? longitude,
   });
   Future<Either<String, List<TimingEntity>>> getMonthTimings({
     required String city,
     required String country,
+    double? latitude,
+    double? longitude,
   });
 }

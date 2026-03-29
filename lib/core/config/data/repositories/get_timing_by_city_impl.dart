@@ -25,18 +25,25 @@ class GetTimingByCityImpl implements GetTimingByCity {
   Future<Either<String, TimingEntity>> getTimingByCity({
     required String city,
     required String country,
+    double? latitude,
+    double? longitude,
   }) async {
     try {
       final DateTime now = DateTime.now();
       final String todayDate = DateFormat('dd-MM-yyyy').format(now);
+      
+      // Cache key: prioritize coordinates if available for better resolution
+      final String cacheKey = (latitude != null && longitude != null) 
+          ? "${latitude.toStringAsFixed(3)}_${longitude.toStringAsFixed(3)}" 
+          : city;
 
-      // 1. Check Cache First (returns the whole month)
-      final TimingModel? cachedMonthTimings = _homeLocalDataSource.getTimings(city);
+      // 1. Check Cache First
+      final TimingModel? cachedMonthTimings = _homeLocalDataSource.getTimings(cacheKey);
 
       if (cachedMonthTimings != null && cachedMonthTimings.data != null) {
         final todayData = cachedMonthTimings.data!.firstWhere(
           (element) => element.date?.gregorian?.date == todayDate,
-          orElse: () => cachedMonthTimings.data!.first, // Fallback if needed
+          orElse: () => cachedMonthTimings.data!.first,
         );
         return Right(todayData.toEntity());
       }
@@ -45,15 +52,25 @@ class GetTimingByCityImpl implements GetTimingByCity {
       final isConnected = await _networkInfo.isConnected;
 
       if (isConnected) {
-        final TimingModel monthTimings = await _apiClientService.getCalendarByCity(
-          city: city,
-          country: country,
-          month: now.month,
-          year: now.year,
-        );
+        final TimingModel monthTimings;
+        if (latitude != null && longitude != null) {
+          monthTimings = await _apiClientService.getCalendarByCoordinates(
+            latitude: latitude,
+            longitude: longitude,
+            month: now.month,
+            year: now.year,
+          );
+        } else {
+          monthTimings = await _apiClientService.getCalendarByCity(
+            city: city,
+            country: country,
+            month: now.month,
+            year: now.year,
+          );
+        }
 
         // 3. Save newly fetched month data to Cache
-        await _homeLocalDataSource.saveTimings(monthTimings, city);
+        await _homeLocalDataSource.saveTimings(monthTimings, cacheKey);
 
         final todayData = monthTimings.data!.firstWhere(
           (element) => element.date?.gregorian?.date == todayDate,
@@ -70,9 +87,18 @@ class GetTimingByCityImpl implements GetTimingByCity {
   }
   
   @override
-  Future<Either<String, List<TimingEntity>>> getMonthTimings({required String city, required String country}) async {
+  Future<Either<String, List<TimingEntity>>> getMonthTimings({
+    required String city,
+    required String country,
+    double? latitude,
+    double? longitude,
+  }) async {
     try {
-      final TimingModel? cached = _homeLocalDataSource.getTimings(city);
+      final String cacheKey = (latitude != null && longitude != null) 
+          ? "${latitude.toStringAsFixed(3)}_${longitude.toStringAsFixed(3)}" 
+          : city;
+          
+      final TimingModel? cached = _homeLocalDataSource.getTimings(cacheKey);
       if (cached != null && cached.data != null) {
         final List<TimingEntity> allMonth = cached.data!.map((e) => e.toEntity()).toList();
         return Right(allMonth);

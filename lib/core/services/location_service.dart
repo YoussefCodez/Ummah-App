@@ -4,22 +4,22 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton()
 class LocationService {
-  Future<String> getCurrentGovernorate() async {
+  Future<({String address, double lat, double long})> getCurrentGovernorate() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return 'Please enable location services';
+      throw 'Please enable location services';
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return 'Location permission denied';
+        throw 'Location permission denied';
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return 'Location permission permanently denied. Please enable it in settings.';
+      throw 'Location permission permanently denied. Please enable it in settings.';
     }
 
     Position position;
@@ -29,7 +29,7 @@ class LocationService {
       );
     } catch (e) {
       print('Geocoding error: $e');
-      return "Couldn't get your location. Please try again.";
+      throw "Couldn't get your location. Please try again.";
     }
 
     try {
@@ -41,7 +41,7 @@ class LocationService {
       );
 
       if (placemarks.isEmpty) {
-        return 'No location information found';
+        return (address: 'Unknown', lat: position.latitude, long: position.longitude);
       }
 
       Placemark place = placemarks.first;
@@ -63,11 +63,19 @@ class LocationService {
           )
           .replaceAll('Muhafazah', '')
           .trim();
-      return '$governorate, $country';
+      return (
+        address: '$governorate, $country',
+        lat: position.latitude,
+        long: position.longitude,
+      );
     } catch (e) {
       // ignore: avoid_print
       print('Geocoding error: $e');
-      return "Couldn't fetch address information";
+      return (
+        address: 'Unknown',
+        lat: position.latitude,
+        long: position.longitude,
+      );
     }
   }
 }

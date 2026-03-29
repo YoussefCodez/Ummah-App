@@ -32,6 +32,22 @@ class HiveService {
     return locationBox.get('date') ?? DateTime.now();
   }
 
+  Future<void> saveLatitude(double latitude) async {
+    await locationBox.put('latitude', latitude);
+  }
+
+  double getLatitude() {
+    return locationBox.get('latitude') ?? 30.0444; // Default to Cairo
+  }
+
+  Future<void> saveLongitude(double longitude) async {
+    await locationBox.put('longitude', longitude);
+  }
+
+  double getLongitude() {
+    return locationBox.get('longitude') ?? 31.2357; // Default to Cairo
+  }
+
   Future<void> clearLocation() async {
     await locationBox.delete('location');
   }

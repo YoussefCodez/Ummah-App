@@ -12,7 +12,7 @@
 ## 🌟 Introduction
 **Ummah** is a premium Islamic companion application designed to empower Muslims in their daily spiritual journey. Built with a focus on **Visual Excellence** and **User Experience**, the app combines essential Islamic tools with a modern, minimalist aesthetic.
 
-Whether you're reading the Holy Quran, tracking your daily Azkar, or keeping up with prayer times, Ummah provides a seamless and distraction-free environment.
+Whether you're reading the Holy Quran, tracking your daily Azkar, or keeping up with prayer times, Ummah provides a seamless and distraction-free environment with full offline capabilities.
 
 ---
 
@@ -20,34 +20,36 @@ Whether you're reading the Holy Quran, tracking your daily Azkar, or keeping up 
 
 | Feature | Description |
 | :--- | :--- |
-| **📖 Holy Quran** | Read the Quran with clear typography, including Tafsir and bookmarking capabilities. |
-| **🕌 Prayer Times** | Accurate, location-based prayer timings with automated reminders and notifications. |
-| **📿 Digital Tasbih** | An elegant electronic counter for Dhikr with haptic feedback and beautiful animations. |
-| **🤲 Azkar & Dua** | A categorized library of authentic morning, evening, and situational supplications. |
-| **📅 Hijri Calendar** | Unified Hijri and Gregorian calendar to stay on top of Islamic dates and events. |
-| **🌐 Multi-language** | Native support for **Arabic** and **English**, localized for global accessibility. |
-| **🌓 Adaptive Theme** | Beautifully crafted **Light** and **Dark** modes to suit your preference and environment. |
+| **📖 Holy Quran** | Dual-mode reading experience (**Mushaf** for traditional pages and **Ayah** for text-based). Includes **Full-Text Search**, Tafsir, and bookmarking. |
+| **🎧 Audio Streaming** | High-quality recitations for every Ayah with **Smart Caching** for offline playback using `DefaultCacheManager`. |
+| **🕌 Prayer Times** | Location-based monthly prayer timings with **Offline Caching**. Accurate calculation methods for global support. |
+| **📿 Digital Tasbih** | An elegant electronic counter for Dhikr with haptic feedback, beautiful animations, and progress tracking. |
+| **🤲 Azkar & Dua** | A categorized library of authentic morning, evening, and situational supplications with completion tracking. |
+| **📅 Hijri Calendar** | Unified Hijri and Gregorian calendar to stay on top of Islamic dates and religious events. |
+| **🌓 Adaptive Theme** | Sleek **Dark Mode** and **Light Mode** support, meticulously crafted for eye comfort during night readings. |
+| **🌐 Localization** | Fully localized in **Arabic** and **English** with RTL support. |
 
 ---
 
 ## 🛠 Tech Stack & Architecture
 
 ### **Core Frameworks**
-- **Flutter & Dart**: For high-performance cross-platform development.
-- **BLoC/Cubit**: Advanced state management for predictable and scalable data flow.
-- **Clean Architecture**: Strict adherence to Domain, Data, and Presentation layers.
+- **Flutter & Dart**: Cross-platform engine.
+- **BLoC/Cubit**: Clean state management for predictable UI updates.
+- **Clean Architecture**: Organized into `Domain`, `Data`, and `Presentation` layers for maximum maintainability.
 
-### **Integrations**
-- **Firebase**: Leveraging FCM for real-time notifications and Firebase Core for cloud infrastructure.
-- **Hive**: Ultra-fast local NoSQL database for caching and offline support.
-- **Retrofit & Dio**: Type-safe REST API client for reliable networking.
-- **GetIt & Injectable**: Professional Dependency Injection for modular development.
+### **Integrations & Performance**
+- **Hive CE**: Ultra-fast local NoSQL database for lightning-fast data persistence.
+- **AudioPlayers**: Robust audio engine with background playback support.
+- **Flutter Cache Manager**: Intelligent caching for recitations and network assets.
+- **GetIt & Injectable**: Enterprise-grade Dependency Injection.
+- **Retrofit & Dio**: Type-safe networking with interceptors for reliable API calls.
 
 ### **UI & Experience**
-- **ScreenUtil**: Responsive UI that scales perfectly across all screen sizes.
-- **Flutter Animate**: Fluid micro-animations for a premium feel.
-- **Skeletonizer**: Smooth loading states that improve perceived performance.
-- **Easy Localization**: Dynamic runtime language switching.
+- **ScreenUtil**: Pixel-perfect responsive design across all mobile devices.
+- **Persistent Bottom Nav Bar**: Seamless navigation experience that preserves tab states.
+- **Skeletonizer**: Premium loading placeholders for a smoother perceived performance.
+- **Flutter Animate**: subtle micro-animations that enhance the premium feel.
 
 ---
 
@@ -55,18 +57,20 @@ Whether you're reading the Holy Quran, tracking your daily Azkar, or keeping up 
 
 ```bash
 lib/
-├── core/                # Core configurations (Theme, Constants, Errors)
-│   ├── services/        # App-wide services (Notifications, DI, Hive)
-│   └── config/          # Navigation and routing logic
-├── features/            # Feature-driven modular development
-│   ├── azkar/           # Morning/Evening Remembrances
-│   ├── calendar/        # Hijri & Gregorian logic
-│   ├── quran/           # Quran Reader & Index
-│   ├── home/            # Dashboard & UI skeleton
-│   ├── tasbih/          # Digital Counter
-│   └── settings/        # User Preferences & Theme
-├── main.dart            # Application Entry Point
-└── my_app.dart          # Main App Widget & Initialization
+├── core/                # Global configurations, themes, and shared logic
+│   ├── services/        # Singleton services (DI, Hive, Cache)
+│   ├── config/          # App-wide routing and navigation
+│   └── theme/           # AppColors and ThemeData definitions
+├── features/            # Modular feature-driven development
+│   ├── home/            # Dashboard with dynamic prayer updates
+│   ├── quran/           # Quran index, search, and reading modes
+│   ├── surah_details/   # Detailed Mushaf and Ayah views
+│   ├── prayers/         # Prayer timing logic and scheduling
+│   ├── azkar/           # Daily remembrances and tracking
+│   ├── tasbih/          # Interactive counter
+│   └── settings/        # Preferences (Reciters, Mushaf Mode, Theme)
+├── main.dart            # Initialization & Firebase setup
+└── my_app.dart          # Localized material app wrapper
 ```
 
 ---
@@ -74,9 +78,9 @@ lib/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Flutter SDK (`^3.11.0`)
+- Flutter SDK (`^3.19.0`)
 - Android Studio / VS Code
-- Firebase Project (for notifications)
+- Firebase Project setup for Push Notifications
 
 ### Installation
 1. **Clone the repository:**
@@ -87,7 +91,7 @@ lib/
    ```bash
    flutter pub get
    ```
-3. **Run Build Runner (for DI and JSON):**
+3. **Generate boilerplate code (DI/JSON):**
    ```bash
    flutter pub run build_runner build --delete-conflicting-outputs
    ```
@@ -121,35 +125,6 @@ lib/
   <img src="https://github.com/user-attachments/assets/7a5686e6-3236-450a-99f2-20958725d04d" width="24%" />
 </p>
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/3e80bb24-145e-4df7-b9f2-f77fbc2488f2" width="24%" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/3f6df69e-393e-49da-8297-8f2513178eaf" width="24%" />
-  <img src="https://github.com/user-attachments/assets/4781f49e-3d51-4fd8-81cf-129658b0ef7d" width="24%" />
-  <img src="https://github.com/user-attachments/assets/656bf323-7e1a-4828-b5fc-26270dd00543" width="24%" />
-  <img src="https://github.com/user-attachments/assets/23852fa7-5790-4bd7-a28e-75611a38d006" width="24%" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/34a672a6-dc4b-4324-a648-673467e34192" width="24%" />
-  <img src="https://github.com/user-attachments/assets/130b790f-de21-4882-a69b-37c1f1e8a0b1" width="24%" />
-  <img src="https://github.com/user-attachments/assets/b7e97312-b0ec-4380-87c3-b8607fd7eb94" width="24%" />
-  <img src="https://github.com/user-attachments/assets/150c4081-6558-44aa-bf8c-732071dab3b6" width="24%" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/cdd7c089-c675-4314-bd3c-12505b554020" width="24%" />
-  <img src="https://github.com/user-attachments/assets/d36a9d40-22b9-4101-b783-1a3845e163ef" width="24%" />
-  <img src="https://github.com/user-attachments/assets/c00ce8d4-111a-4617-a792-951768011055" width="24%" />
-  <img src="https://github.com/user-attachments/assets/55d6b45d-e96e-421d-805c-d8397ef91f19" width="24%" />
-</p>
-
-
-<!-- Add your generated banner here if you want to include it locally -->
-<!-- ![Banner](assets/images/ummah_banner.png) -->
-
 ---
 
 ## 📄 License
@@ -158,7 +133,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🤝 Contact
 Developed with ❤️ by **Youssef**
 - GitHub: [@YoussefCodez](https://github.com/YoussefCodez)
-- Portfolio: [@JoeCodez](https://joeportfolio-alpha.vercel.app/)
+- Portfolio: [JoeCodez](https://joeportfolio-alpha.vercel.app/)
 
 ---
 <p align="center">"Bringing the Ummah together, one step at a time."</p>

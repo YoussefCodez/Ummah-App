@@ -16,12 +16,16 @@ class GetPrayersCubit extends Cubit<GetPrayersState> {
   Future<void> getMonthTimings() async {
     emit(GetPrayersLoading());
     final location = _hiveService.getLocation();
+    final lat = _hiveService.getLatitude();
+    final long = _hiveService.getLongitude();
     final locationParts = location.split(", ");
     final city = locationParts[0];
     final country = locationParts[1];
     final result = await _getTimingByCityUsecase.getMonthTimings(
       city: city,
       country: country,
+      latitude: lat,
+      longitude: long,
     );
     result.fold(
       (error) => emit(GetPrayersError(error: error)),

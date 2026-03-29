@@ -16,45 +16,50 @@ class LocationCubit extends Cubit<LocationState> {
   Future<void> fetchGovernorate() async {
     final hiveService = getIt<HiveService>();
     final cached = hiveService.getLocation();
+    final cachedLat = hiveService.getLatitude();
+    final cachedLong = hiveService.getLongitude();
     final cachedDate = hiveService.getDate();
 
     try {
       if (cached.isNotEmpty) {
-        emit(LocationSuccess(cached, cachedDate));
+        emit(LocationSuccess(cached, cachedLat, cachedLong, cachedDate));
       } else {
         emit(LocationLoading());
       }
 
       final result = await _locationService.getCurrentGovernorate();
+      final address = result.address;
       final isValid =
-          result.isNotEmpty &&
-          !result.contains("Couldn't") &&
-          !result.contains("permission") &&
-          !result.contains("enable") &&
-          !result.contains("denied") &&
-          !result.contains("disabled") &&
-          !result.contains("Sorry");
+          address.isNotEmpty &&
+          !address.contains("Couldn't") &&
+          !address.contains("permission") &&
+          !address.contains("enable") &&
+          !address.contains("denied") &&
+          !address.contains("disabled") &&
+          !address.contains("Sorry");
 
       if (isValid) {
-        if (result != cached) {
+        if (address != cached || result.lat != cachedLat || result.long != cachedLong) {
           try {
-            hiveService.saveLocation(result);
+            hiveService.saveLocation(address);
+            hiveService.saveLatitude(result.lat);
+            hiveService.saveLongitude(result.long);
             hiveService.saveDate(DateTime.now());
-            emit(LocationSuccess(result, DateTime.now()));
+            emit(LocationSuccess(address, result.lat, result.long, DateTime.now()));
           } catch (e) {
             log("Error saving location: $e");
           }
         }
       } else {
         if (cached.isEmpty) {
-          emit(LocationSuccess("Cairo Egypt", DateTime.now()));
+          emit(LocationSuccess("Cairo Egypt", 30.0444, 31.2357, DateTime.now()));
         }
       }
     } catch (e) {
       if (cached.isNotEmpty) {
-        emit(LocationSuccess(cached, cachedDate));
+        emit(LocationSuccess(cached, cachedLat, cachedLong, cachedDate));
       } else {
-        emit(LocationSuccess("Cairo Egypt", DateTime.now()));
+        emit(LocationSuccess("Cairo Egypt", 30.0444, 31.2357, DateTime.now()));
       }
     }
   }
