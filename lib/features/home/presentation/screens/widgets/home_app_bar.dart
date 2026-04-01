@@ -60,7 +60,7 @@ class HomeAppBar extends StatelessWidget {
                         ),
                         Gap(4.h),
                         Text(
-                          "${AppStrings.lastUpdated}: ${state.date.hour}:${state.date.minute} ${state.date.hour >= 12 ? "PM" : "AM"}",
+                          "${AppStrings.lastUpdated}: ${state.date.hour % 12 == 0 ? 12 : state.date.hour % 12}:${state.date.minute.toString().padLeft(2, '0')} ${state.date.hour >= 12 ? "PM" : "AM"}",
                           style: Theme.of(context).textTheme.titleSmall
                               ?.copyWith(
                                 fontSize: DeviceUtilsService.isTablet(context)
