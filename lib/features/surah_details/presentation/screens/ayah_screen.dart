@@ -95,7 +95,9 @@ class _AyahScreenState extends State<AyahScreen> {
                 itemCount: state.surah.verses.length,
                 itemBuilder: (context, index) {
                   final ayah = state.surah.verses[index];
-                  return AyahCard(ayah: ayah, surah: widget.surah);
+                  return RepaintBoundary(
+                    child: AyahCard(ayah: ayah, surah: widget.surah),
+                  );
                 },
               );
             }

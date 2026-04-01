@@ -90,24 +90,10 @@ class ScreenShotWidget extends StatelessWidget {
                   ),
                 ),
                 Gap(20.w),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Ummah",
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                    Gap(4.w),
-                    Image.asset(
-                      "assets/images/ummahLogo.png",
-                      width: 24.r,
-                      height: 24.r,
-                    ),
-                  ],
+                Image.asset(
+                  "assets/images/ummahLogo.png",
+                  width: 24.r,
+                  height: 24.r,
                 ),
               ],
             ),
