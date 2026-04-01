@@ -79,5 +79,11 @@
     "language": "Language",
     "noInternetTitle": "No Internet Connection",
     "noInternetBody": "Prayer times will appear automatically once you're connected.",
-    "prayers": "Prayers"
+    "prayers": "Prayers",
+    "save": "Save",
+    "share": "Share",
+    "saveSuccess": "Image saved to gallery successfully",
+    "saveError": "Failed to save image",
+    "shareError": "Failed to share image, please try again later",
+    "shareText": "Share from Ummah App"
 }

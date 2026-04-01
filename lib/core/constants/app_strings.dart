@@ -95,4 +95,10 @@ abstract class AppStrings {
   static String get sajda => "sajda".tr();
   static String get noInternetTitle => "noInternetTitle".tr();
   static String get noInternetBody => "noInternetBody".tr();
+  static String get save => "save".tr();
+  static String get share => "share".tr();
+  static String get saveSuccess => "saveSuccess".tr();
+  static String get saveError => "saveError".tr();
+  static String get shareError => "shareError".tr();
+  static String get shareText => "shareText".tr();
 }

@@ -74,6 +74,7 @@ class HomeAppBar extends StatelessWidget {
                   return Text(
                     state is LocationFailure ? state.message : "",
                     maxLines: 1,
+                    overflow: .ellipsis,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontSize: DeviceUtilsService.isTablet(context)
                           ? 15.sp
@@ -119,14 +120,7 @@ class HomeAppBar extends StatelessWidget {
                 );
               }
               if (state is GetTimingByCityFailure) {
-                return Text(
-                  state.error,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: DeviceUtilsService.isTablet(context)
-                        ? 15.sp
-                        : 20.sp,
-                  ),
-                );
+                return SizedBox.shrink();
               }
               if (state is GetTimingByCityLoading) {
                 return Skeletonizer(

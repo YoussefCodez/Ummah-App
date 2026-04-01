@@ -8,12 +8,22 @@ import 'package:ummah/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:ummah/features/settings/presentation/cubit/settings_state.dart';
 import 'package:ummah/features/surah_details/presentation/cubit/quran_tafsir_cubit.dart';
 import 'package:ummah/core/constants/app_strings.dart';
+import 'package:ummah/features/surah_details/presentation/screens/widgets/screen_shot_widget.dart';
 
-class AyahCard extends StatelessWidget {
+class AyahCard extends StatefulWidget {
   final Ayah ayah;
+  final SurahMetadata surah;
+  const AyahCard({
+    super.key,
+    required this.ayah,
+    required this.surah,
+  });
 
-  const AyahCard({super.key, required this.ayah});
+  @override
+  State<AyahCard> createState() => _AyahCardState();
+}
 
+class _AyahCardState extends State<AyahCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +57,7 @@ class AyahCard extends StatelessWidget {
                   builder: (context, state) {
                     if (state is SettingsLoaded) {
                       return Text(
-                        ayah.text,
+                        widget.ayah.text,
                         textDirection: TextDirection.rtl,
                         style: TextStyle(
                           fontFamily: 'QuranFont',
@@ -83,14 +93,29 @@ class AyahCard extends StatelessWidget {
           const Spacer(),
           IconButton(
             icon: Icon(
+              Icons.share,
+              size: 24.r,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            onPressed: () {
+              ScreenShotWidget.show(
+                context,
+                header: "سورة ${widget.surah.nameAr}",
+                content: widget.ayah.text,
+                details: "الجزء ${widget.ayah.juz} • صفحة ${widget.ayah.page}",
+              );
+            },
+          ),
+          IconButton(
+            icon: Icon(
               Icons.play_circle_outline,
               size: 24.r,
               color: Theme.of(context).colorScheme.primary,
             ),
             onPressed: () {
               final url = context.read<QuranCubit>().getAudioUrl(
-                ayah.surahNumber,
-                ayah.id,
+                widget.ayah.surahNumber,
+                widget.ayah.id,
               );
               context.read<QuranCubit>().loadAudio(url);
             },
@@ -110,7 +135,7 @@ class AyahCard extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          ayah.id.toString(),
+          widget.ayah.id.toString(),
           style: TextStyle(
             color: Theme.of(context).colorScheme.onPrimary,
             fontSize: 14.sp,
@@ -134,7 +159,7 @@ class AyahCard extends StatelessWidget {
               return Center(child: Text(state.message));
             }
             if (state is QuranTafsirSuccess) {
-              final tafsirText = state.tafsir[ayah.id] ?? "";
+              final tafsirText = state.tafsir[widget.ayah.id] ?? "";
               final cleanedTafsir = tafsirText.length > 4
                   ? tafsirText.substring(4)
                   : tafsirText;
@@ -156,7 +181,7 @@ class AyahCard extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            if (ayah.isSajda) ...[
+            if (widget.ayah.isSajda) ...[
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                 decoration: BoxDecoration(
@@ -181,7 +206,7 @@ class AyahCard extends StatelessWidget {
               Gap(10.w),
             ],
             Text(
-              "${AppStrings.juzEn} ${ayah.juz}",
+              "${AppStrings.juzEn} ${widget.ayah.juz}",
               style: TextStyle(
                 fontSize: 12.sp,
                 color: Theme.of(

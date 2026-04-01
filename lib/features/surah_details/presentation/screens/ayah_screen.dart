@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gap/flutter_gap.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_with_tafsir/models/meta.dart';
 import 'package:quran_with_tafsir/quran_with_tafsir.dart';
+
 import 'package:ummah/core/services/device_utils_service.dart';
 import 'package:ummah/core/services/get_it_service.dart';
 import 'package:ummah/core/theme/app_colors.dart';
@@ -20,6 +21,11 @@ class AyahScreen extends StatefulWidget {
 }
 
 class _AyahScreenState extends State<AyahScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -75,34 +81,26 @@ class _AyahScreenState extends State<AyahScreen> {
             statusBarBrightness: Theme.of(context).brightness,
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              BlocBuilder<QuranCubit, QuranState>(
-                builder: (context, state) {
-                  if (state is QuranSurahLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (state is QuranSurahFailure) {
-                    return Center(child: Text(state.message));
-                  }
-                  if (state is QuranSurahSuccess) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemCount: state.surah.verses.length,
-                      itemBuilder: (context, index) {
-                        final ayah = state.surah.verses[index];
-                        return AyahCard(ayah: ayah);
-                      },
-                    );
-                  }
-                  return const SizedBox.shrink();
+        body: BlocBuilder<QuranCubit, QuranState>(
+          builder: (context, state) {
+            if (state is QuranSurahLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is QuranSurahFailure) {
+              return Center(child: Text(state.message));
+            }
+            if (state is QuranSurahSuccess) {
+              return ListView.builder(
+                padding: EdgeInsets.only(bottom: 120.h),
+                itemCount: state.surah.verses.length,
+                itemBuilder: (context, index) {
+                  final ayah = state.surah.verses[index];
+                  return AyahCard(ayah: ayah, surah: widget.surah);
                 },
-              ),
-              Gap(120.h),
-            ],
-          ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ),
     );
