@@ -11,6 +11,7 @@ import 'package:ummah/features/home/presentation/screens/widgets/access_services
 import 'package:ummah/features/home/presentation/screens/widgets/home_app_bar.dart';
 import 'package:ummah/features/home/presentation/screens/widgets/prayers_widget.dart';
 import 'package:ummah/features/home/presentation/screens/widgets/salah_row.dart';
+import 'package:ummah/features/home/presentation/screens/widgets/simple_services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.controller});
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final city = parts.isNotEmpty ? parts[0] : "Cairo";
     final country = parts.length > 1 ? parts[1] : "Egypt";
     _timingCubit.getTimingByCity(
-      city: city, 
+      city: city,
       country: country,
       latitude: location.latitude,
       longitude: location.longitude,
@@ -86,6 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SalahRow(),
                 const PrayersWidget(),
                 AccessServices(controller: widget.controller),
+                Gap(20.h),
+                SimpleServices(),
                 Gap(100.h),
               ],
             ),

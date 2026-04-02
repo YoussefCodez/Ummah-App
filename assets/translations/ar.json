@@ -85,5 +85,13 @@
   "saveSuccess": "تم حفظ الصورة في المعرض بنجاح",
   "saveError": "فشل حفظ الصورة",
   "shareError": "فشل في مشاركة الصورة، يرجى المحاولة لاحقاً",
-  "shareText": "مشاركة من تطبيق أمة"
+  "shareText": "مشاركة من تطبيق أمة",
+  "ayat_al_kursi": "آية الكرسي",
+  "benefits_ayat_al_kursi": "فوائد آية الكرسي",
+  "greatness_ayat_al_kursi": "دليل قاطع على عظم آية الكرسي",
+  "tafsir_muyassar": "التفسير الميسر",
+  "mukhtasar": "المختصر",
+  "english_translation": "الترجمة الإنجليزية",
+  "names_of_allah": "أسماء الله الحسنى",
+  "mosques": "المساجد"
 }

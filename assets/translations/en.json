@@ -85,5 +85,13 @@
     "saveSuccess": "Image saved to gallery successfully",
     "saveError": "Failed to save image",
     "shareError": "Failed to share image, please try again later",
-    "shareText": "Share from Ummah App"
+    "shareText": "Share from Ummah App",
+    "ayat_al_kursi": "Ayat al-Kursi",
+    "benefits_ayat_al_kursi": "Benefits of Ayat al-Kursi",
+    "greatness_ayat_al_kursi": "The Story of Ayat al-Kursi",
+    "tafsir_muyassar": "Tafsir Al-Muyassar",
+    "mukhtasar": "Al-Mukhtasar in Tafsir",
+    "english_translation": "English Translation",
+    "names_of_allah": "Names of Allah",
+    "mosques": "Mosques"
 }

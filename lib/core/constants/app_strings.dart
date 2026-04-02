@@ -101,4 +101,14 @@ abstract class AppStrings {
   static String get saveError => "saveError".tr();
   static String get shareError => "shareError".tr();
   static String get shareText => "shareText".tr();
+
+  // Features Strings
+  static String get ayatAlKursi => "ayat_al_kursi".tr();
+  static String get benefitsAyatAlKursi => "benefits_ayat_al_kursi".tr();
+  static String get greatnessAyatAlKursi => "greatness_ayat_al_kursi".tr();
+  static String get tafsirMuyassar => "tafsir_muyassar".tr();
+  static String get mukhtasar => "mukhtasar".tr();
+  static String get englishTranslation => "english_translation".tr();
+  static String get namesOfAllah => "names_of_allah".tr();
+  static String get mosques => "mosques".tr();
 }
